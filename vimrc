@@ -40,10 +40,11 @@ nnoremap k gk
 inoremap jj <ESC>
 nnoremap gp `[v`]
 
-nmap <silent> <c-k> :wincmd k<CR>                                                                                                                       
-nmap <silent> <c-j> :wincmd j<CR>                                                                                                                       
-nmap <silent> <c-h> :wincmd h<CR>                                                                                                                       
+nmap <silent> <c-k> :wincmd k<CR>
+nmap <silent> <c-j> :wincmd j<CR>
+nmap <silent> <c-h> :wincmd h<CR>
 nmap <silent> <c-l> :wincmd l<CR>
+nmap <silent> <c-j><c-j> :close<CR>
 
 set backspace+=indent,eol,start
 set wildignore+=.git,.svn,current,svn,tmp*
