@@ -30,6 +30,10 @@ autocmd! bufwritepost .vimrc source ~/.vimrc
 nnoremap <leader><space> :noh<cr>
 nnoremap <leader>f :CommandTFlush<cr>
 nnoremap <leader>b :buffers<cr>
+nnoremap <leader>d :bp\|sp\|bn\|bd<cr>
+nnoremap <leader>n :enew<cr>
+nnoremap <leader>= <c-w>=<cr>
+nnoremap <leader><leader> <c-w>\|<cr>
 nnoremap <tab> %
 vnoremap <tab> %
 nnoremap ; $
