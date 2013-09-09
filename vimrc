@@ -26,6 +26,7 @@ set softtabstop=4
 set tabstop=4
 set shiftwidth=4
 au FileType python set tabstop=4 shiftwidth=4 expandtab
+au FileType gitcommit set tw=72
 
 " Search settings - case-insensitive, search as-you-type, highlight matches
 set ignorecase
