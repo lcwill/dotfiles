@@ -19,7 +19,7 @@ set undolevels=10000
 " Tab-completion for filenames, ignore hidden/temp files
 set wildmenu
 set wildmode=list:longest
-set wildignore+=.git,.svn,current,svn,tmp*
+set wildignore+=.git,.svn,current,svn,tmp*,node_modules,*.pyc
 
 " Indentation - 4-column wide tabs, expand to 4 spaces for Python
 set softtabstop=4
@@ -28,6 +28,11 @@ set shiftwidth=4
 au FileType python set tabstop=4 shiftwidth=4 expandtab
 au FileType gitcommit set tw=72
 
+" Set text width indicator column
+"set textwidth=100
+"set colorcolumn=+1
+"highlight ColorColumn ctermbg=darkgrey
+
 " Search settings - case-insensitive, search as-you-type, highlight matches
 set ignorecase
 set smartcase
@@ -35,6 +40,7 @@ set gdefault
 set incsearch
 set showmatch
 set hlsearch
+highlight search ctermfg=black ctermbg=yellow
 
 " Make backspace work over auto-indentation and line breaks
 set backspace+=indent,eol,start
