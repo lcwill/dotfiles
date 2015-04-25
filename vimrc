@@ -26,12 +26,17 @@ set softtabstop=4
 set tabstop=4
 set shiftwidth=4
 au FileType python set tabstop=4 shiftwidth=4 expandtab
+au FileType yaml set tabstop=4 shiftwidth=4 expandtab
+au FileType javascript set softtabstop=2 tabstop=2 shiftwidth=2 expandtab
 au FileType gitcommit set tw=72
+autocmd BufNewFile,BufRead /usr/local/adnxs/maestro/* set tabstop=4 shiftwidth=4 softtabstop=4 noexpandtab
 
 " Set text width indicator column
-"set textwidth=100
-"set colorcolumn=+1
-"highlight ColorColumn ctermbg=darkgrey
+set textwidth=100
+set formatoptions+=lro
+set formatoptions-=tc
+set colorcolumn=+1
+highlight ColorColumn ctermbg=darkgrey
 
 " Search settings - case-insensitive, search as-you-type, highlight matches
 set ignorecase
@@ -44,6 +49,9 @@ highlight search ctermfg=black ctermbg=yellow
 
 " Make backspace work over auto-indentation and line breaks
 set backspace+=indent,eol,start
+
+" Map \p to toggle paste mode
+set pastetoggle=<leader>p
 
 " Enable syntax highlighting
 syntax on
@@ -91,3 +99,34 @@ nnoremap <leader>n :enew<cr>
 " Map \f to refresh command-t file list
 nnoremap <leader>f :CommandTFlush<cr>
 
+" Turn on Pathogen
+execute pathogen#infect()
+
+" Setup syntastic
+let g:syntastic_python_checkers=['pyflakes']
+let g:syntastic_javascript_checkers=['jsl']
+let g:syntastic_error_symbol='✗'
+let g:syntastic_warning_symbol='⚠'
+let g:syntastic_auto_loc_list=1
+let g:syntastic_loc_list_height=5
+let g:syntastic_stl_format='[%E{Err: %fe (%e)}%B{|}%W{Warn: %fw (%w)}]'
+let g:syntastic_mode_map={'mode': 'active',
+  \ 'active_filetypes': ['javascript', 'php', 'python', 'vim'],
+  \ 'passive_filetypes': ['puppet'] }
+
+" Map \0 to reset syntastic
+nnoremap <leader>0 :SyntasticReset<cr>
+
+" Customize status line
+set statusline=%F\      "filename
+set statusline+=%h      "help file flag
+set statusline+=%m      "modified flag
+set statusline+=%r      "read only flag
+set statusline+=%y      "filetype
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+set statusline+=%=      "left/right separator
+set statusline+=%c,     "cursor column
+set statusline+=%l/%L   "cursor line/total lines
+set statusline+=\ %P    "percent through file
