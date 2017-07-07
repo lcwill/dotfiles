@@ -1,0 +1,15 @@
+#!/bin/sh
+if [ -z "$1" ]; then
+  echo "Specify number of commits to squash"
+  exit 1
+fi
+
+ncommits=$1
+if [ $ncommits -lt 2 ]; then
+  echo "Must squash more than 1 commit"
+  exit 1
+fi
+
+msg=`git log HEAD~$ncommits..HEAD~$(($ncommits - 1)) --format=%B`
+git reset --soft HEAD~$ncommits
+git commit -m "$msg"

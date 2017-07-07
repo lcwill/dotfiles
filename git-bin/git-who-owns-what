@@ -1,0 +1,22 @@
+#!/bin/bash
+
+# git-who-owns-what
+# Print a list of remote branch ownership by user
+
+
+if [[ $* == *-h* ]] || [[ $* == *--help* ]]
+then
+  echo "Print a list of which users own which remote branches"
+  echo "The owner is considered to be the last committer"
+  echo
+  echo "usage: git who-owns-what"
+  echo
+  exit 0
+fi
+
+if [[ ! -f ~/git_usernames ]]; then
+  echo 'Must place line-delimited list of usernames to search for in ~/git_usernames'
+  exit 1
+fi
+
+while read i; do echo --- $i; git rlog 1 | grep -B1 "$i" | grep Branch; done < <(cat ~/git_usernames)

@@ -1,0 +1,7 @@
+#!/bin/sh
+msg="$@"
+if [ -z "$msg" ]; then
+  msg="dummy commit"
+fi
+git add -A .
+git commit -m "$msg"

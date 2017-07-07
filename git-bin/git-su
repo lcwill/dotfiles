@@ -1,0 +1,4 @@
+#!/bin/bash
+BRANCH=`git symbolic-ref --short -q HEAD`
+echo "git branch --set-upstream $BRANCH origin/$BRANCH"
+git branch --set-upstream $BRANCH origin/$BRANCH

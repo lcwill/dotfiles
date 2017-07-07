@@ -1,0 +1,142 @@
+#!/usr/bin/env python2.7
+
+# git-link
+# Print links to web resources of content tracked in Git
+
+
+import os
+import re
+import subprocess
+import sys
+
+
+REMOTE_PATTERNS = {
+    'github': ['github:','git@github.com:','https://github.com'],
+}
+
+class cd:
+  """
+  Context manager for changing the current working directory.
+  From: http://stackoverflow.com/questions/431684
+  """
+  def __init__(self, newPath):
+    self.newPath = os.path.expanduser(newPath)
+
+  def __enter__(self):
+    self.savedPath = os.getcwd()
+    os.chdir(self.newPath)
+
+  def __exit__(self, etype, value, traceback):
+    os.chdir(self.savedPath)
+
+def get_dot_git_path(path):
+  if os.path.realpath(path) == '/':
+    sys.exit('Error: no .git directory found')
+  if not os.path.exists(os.path.join(path, '.git')):
+    return get_dot_git_path(os.path.join(path, '..'))
+  else:
+    return os.path.realpath(path)
+
+def get_current_branch():
+  fnull = open(os.devnull, 'w')
+  try:
+    output = subprocess.check_output(['git', 'symbolic-ref', '--short', 'HEAD'], stderr=fnull)
+    return output.strip()
+  except subprocess.CalledProcessError:
+    pass
+
+  # TODO - make links actually work for tags and commits for all web URIs
+  try:
+    current_tag = subprocess.check_output(['git', 'describe', '--exact-match', 'HEAD'], stderr=fnull)
+    return current_tag.strip()
+  except subprocess.CalledProcessError:
+    pass
+
+  try:
+    output = subprocess.check_output(['git', 'rev-parse', 'HEAD'], stderr=fnull)
+    return output.strip()
+  except subprocess.CalledProcessError:
+    raise Exception('No tag, branch, or blob found -- nothing to link to')
+
+def subtract_path(path1, path2):
+  """
+  foo/bar - foo/ = bar
+  """
+  return path1.replace(path2, '').strip('/')
+
+def file_is_tracked(fname):
+  output = subprocess.check_output(['git', 'ls-files'])
+  for line in output.strip().split('\n'):
+    if line == fname:
+      return True
+  return False
+
+def get_remote():
+  output = subprocess.check_output(['git', 'remote', '-v'])
+  remote_pattern_str = '|'.join(['|'.join(patterns) for patterns in REMOTE_PATTERNS.values()])
+  for line in output.split('\n'):
+    if line.startswith('origin'):
+      match = re.search('(%s)([a-zA-Z0-9_\/-]+)' % remote_pattern_str, line)
+      if match is not None:
+        match1 = match.groups()[1] if match.groups()[1].startswith('/') else '/' + match.groups()[1]
+        if match.groups()[0] in REMOTE_PATTERNS['github']:
+          base_url = ('https://github.com' + match1)
+        else:
+          sys.exit('Error: git origin not recognized - must be one of: %s' %
+                   ', '.join(REMOTE_PATTERNS.keys()))
+        return base_url
+
+def main(args):
+  if len(args) not in (0,1,2) or '-h' in args:
+    sys.exit('Prints the web link for a Git resource\n'
+        'Supports GitHub\n'
+        'Usage:\n'
+        '       git link path/to/file[:line number] [line number]   // Links to file (line no)\n'
+        '       git link .                                          // Links to current folder\n'
+        '       git link                                            // Links to top-level of project')
+
+  if len(args) > 0 and ':' in args[0]:
+    if len(args) == 1:
+      args.append(None)
+    args[0], args[1]  = args[0].strip(':').split(':', 1)
+
+  remote = get_remote()
+  dot_git_path = get_dot_git_path(os.getcwd())
+  path = subtract_path(os.getcwd(), dot_git_path)
+
+  if len(args):
+    if args[0] == '.':
+      path_from_dot_git = path
+    else:
+      path_from_dot_git = os.path.abspath(os.path.join(dot_git_path, path, args[0].strip(':'))).\
+          replace(dot_git_path, '').lstrip('/')
+    with cd(dot_git_path):
+      if args[0] != '.' and not file_is_tracked(path_from_dot_git):
+        sys.exit('Error: file is not tracked in Git')
+      else:
+        if args[0] == '.':
+          link = remote.rstrip('/') + '/' + path_from_dot_git
+        else:
+          link = remote.rstrip('/') + '/' + path_from_dot_git
+        if 'github.com' in link:
+          blob_or_tree = 'tree' if args[0] == '.' else 'blob'
+          path_from_dot_git = '' if path_from_dot_git == '.' else path_from_dot_git
+          link = os.path.join(remote, blob_or_tree, get_current_branch(), path_from_dot_git)
+  else:
+    link = remote.strip('/')
+    if 'github.com' in link:
+      link += '/tree/' + get_current_branch()
+
+  link = link.strip('/')
+
+  # Add line numbers
+  if len(args) == 2:
+    if 'github.com' in link:
+      link += '#L' + args[1]
+
+  print link
+  return 0
+
+
+if __name__ == '__main__':
+  sys.exit(main(sys.argv[1:]))
