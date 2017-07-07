@@ -16,9 +16,13 @@ set undofile
 set undodir=~/.vim/undodir
 set undolevels=10000
 
+" Disable file recovery / swapfiles
+set nobackup
+set noswapfile
+
 " Tab-completion for filenames, ignore hidden/temp files
 set wildmenu
-set wildmode=list:longest
+set wildmode=list:longest,full
 set wildignore+=.git,.svn,current,svn,tmp*,node_modules,*.pyc
 
 " Indentation - 4-column wide tabs, expand to 4 spaces for Python
@@ -26,8 +30,11 @@ set softtabstop=4
 set tabstop=4
 set shiftwidth=4
 au FileType python set tabstop=4 shiftwidth=4 expandtab
+au FileType puppet set softtabstop=2 tabstop=2 shiftwidth=2 expandtab
 au FileType yaml set tabstop=4 shiftwidth=4 expandtab
-au FileType javascript set softtabstop=2 tabstop=2 shiftwidth=2 expandtab
+au FileType php set tabstop=4 shiftwidth=4 expandtab
+au FileType javascript set softtabstop=2 tabstop=2 shiftwidth=2
+au FileType lua set softtabstop=2 tabstop=2 shiftwidth=2 expandtab
 au FileType gitcommit set tw=72
 autocmd BufNewFile,BufRead /usr/local/adnxs/maestro/* set tabstop=4 shiftwidth=4 softtabstop=4 noexpandtab
 
@@ -37,6 +44,9 @@ set formatoptions+=lro
 set formatoptions-=tc
 set colorcolumn=+1
 highlight ColorColumn ctermbg=darkgrey
+
+" Remove trailing whitespace for non-binary files on open/save
+autocmd BufRead,BufWrite * if ! &bin | silent! %s/\s\+$//ge | endif
 
 " Search settings - case-insensitive, search as-you-type, highlight matches
 set ignorecase
@@ -99,12 +109,29 @@ nnoremap <leader>n :enew<cr>
 " Map \f to refresh command-t file list
 nnoremap <leader>f :CommandTFlush<cr>
 
+" Map \c to open Conque terminal
+nnoremap <leader>c :ConqueTerm bash<cr>
+nnoremap <leader>cv :ConqueTermVSplit bash<cr>
+
+" Map \y to copy buffer contents to clipboard
+noremap <leader>y y :PBCopy<CR>
+
+" Mlp \g to generate git url for current file
+noremap <leader>g :Gitlink<CR>
+
 " Turn on Pathogen
 execute pathogen#infect()
 
 " Setup syntastic
+"pip install flake8
+"pip install flake8-quotes
+"pip install git+https://github.com/PyCQA/flake8-import-order.git@master
+"let g:syntastic_python_checkers=['flake8']
 let g:syntastic_python_checkers=['pyflakes']
-let g:syntastic_javascript_checkers=['jsl']
+let g:syntastic_javascript_checkers=['jsxhint']
+let g:syntastic_javascript_jsxhint_exec = 'jsx-jshint-wrapper'
+let g:syntastic_style_error_symbol='✠'
+let g:syntastic_style_warning_symbol='≈'
 let g:syntastic_error_symbol='✗'
 let g:syntastic_warning_symbol='⚠'
 let g:syntastic_auto_loc_list=1
