@@ -1,0 +1,57 @@
+[user]
+	name =
+	email =
+[github]
+	user =
+	token =
+[color]
+	branch = auto
+	diff = auto
+	status = auto
+	ui = true
+	grep = true
+[color "diff"]
+	meta = yellow bold
+	frag = blue bold
+	old = magenta bold
+	new = green bold
+[color "status"]
+	added = green
+	changed = yellow
+	untracked = cyan
+[merge]
+	tool = vimdiff
+	conflictstyle = diff3
+[core]
+	editor =
+	excludesfile =
+[alias]
+	aci = add-commit
+	ci = commit
+	cia = commit --amend
+	co = checkout
+	com = checkout master
+	cop = checkout production
+	cp = cherry-pick
+	d = diff -U20
+	dc = diff --cached -U20
+	dn = diff --no-index -U20
+	g = grep
+	ls = ls-files
+	r = remote -v
+	rs = remote show origin
+	rhm = reset --hard master
+	rho = reset --hard origin/master
+	st = status
+	sub = submodule
+	sup = submodule update --init
+	supr = submodule update --init --recursive
+	plog = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
+	pullr = pull --rebase
+	pushoh = push origin HEAD
+	rbm = rebase master
+	rbc = rebase --continue
+	rbs = rebase --skip
+	rba = rebase --abort
+	poke = !git ls-remote origin | grep -w refs/heads/poke && git push origin :poke || git push origin master:poke
+	cleanall = !git gc && git remote prune origin
