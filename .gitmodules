@@ -1,0 +1,12 @@
+[submodule "bundle/command-t"]
+	path = bundle/command-t
+	url = https://github.com/wincent/command-t.git
+[submodule "bundle/pbcopy.vim"]
+	path = bundle/pbcopy.vim
+	url = https://github.com/jhuttner/pbcopy.vim
+[submodule "bundle/vim-fugitive"]
+	path = bundle/vim-fugitive
+	url = https://github.com/tpope/vim-fugitive.git
+[submodule "bundle/vim-jsx"]
+	path = bundle/vim-jsx
+	url = https://github.com/mxw/vim-jsx.git
