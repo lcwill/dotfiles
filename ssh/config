@@ -1,0 +1,10 @@
+StrictHostKeyChecking no
+ForwardAgent yes
+
+Host github
+  Hostname github.com
+  User git
+
+Host *.renew-*.com *.compute.amazonaws.com 10.*
+  IdentityFile ~/.ssh/id_rsa_aws
+  User williams

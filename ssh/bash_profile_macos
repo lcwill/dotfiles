@@ -1,0 +1,20 @@
+# https://superuser.com/questions/141044/sharing-the-same-ssh-agent-among-multiple-login-sessions
+SSH_ENV=$HOME/.ssh/environment
+function start_agent {
+     echo "Initializing new SSH agent..."
+     /usr/bin/ssh-agent | sed 's/^echo/#echo/' > ${SSH_ENV}
+     echo succeeded
+     chmod 600 ${SSH_ENV}
+     . ${SSH_ENV} > /dev/null
+     /usr/bin/ssh-add -K ~/.ssh/id_rsa ~/.ssh/id_rsa_aws ~/.ssh/id_rsa_wordpress;
+}
+
+# Source SSH settings, if applicable
+if [ -f "${SSH_ENV}" ]; then
+     . ${SSH_ENV}
+     ps ${SSH_AGENT_PID} | grep ssh-agent > /dev/null || {
+         start_agent;
+     }
+else
+     start_agent;
+fi

@@ -30,3 +30,13 @@ mkdir -p $HOME/.bash_profile.d
 backup_and_symlink $BASE_DIR/bash/profile $HOME/.profile
 backup_and_symlink $BASE_DIR/bash/bash_profile $HOME/.bash_profile
 backup_and_symlink $BASE_DIR/bash/virtualenvify.sh $HOME/.bin/virtualenvify
+
+heading Install ssh config
+backup_and_symlink $BASE_DIR/ssh/config $HOME/.ssh/config
+backup_and_symlink $BASE_DIR/ssh/bash_profile_macos $HOME/.bash_profile.d/00-ssh
+
+heading Install RVM config
+backup_and_symlink $BASE_DIR/rvm/profile $HOME/.profile.d/10-rvm
+
+heading Install PyEnv config
+backup_and_symlink $BASE_DIR/pyenv/profile $HOME/.profile.d/20-pyenv
