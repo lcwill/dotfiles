@@ -1,0 +1,6 @@
+# Add local bin directory to path
+export PATH="$HOME/.bin:$PATH"
+
+for f in $HOME/.profile.d/*; do
+   source $f
+done

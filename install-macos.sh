@@ -22,3 +22,11 @@ function backup_and_symlink {
     info "Symlinking $dst_link -> $src_path"
     ln -snf $src_path $dst_link
 }
+
+heading Install Bash config
+mkdir -p $HOME/.bin
+mkdir -p $HOME/.profile.d
+mkdir -p $HOME/.bash_profile.d
+backup_and_symlink $BASE_DIR/bash/profile $HOME/.profile
+backup_and_symlink $BASE_DIR/bash/bash_profile $HOME/.bash_profile
+backup_and_symlink $BASE_DIR/bash/virtualenvify.sh $HOME/.bin/virtualenvify

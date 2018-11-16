@@ -1,0 +1,65 @@
+# https://superuser.com/a/313637
+source $HOME/.profile
+
+# https://askubuntu.com/a/22043
+alias sudo='sudo '
+
+alias grep='grep -s --color=auto'
+
+export LSCOLORS='ExgxfxDxcxDxDxxbaDExEx'
+alias ls='ls -G'
+
+alias vi=nvim
+alias vim=nvim
+
+alias bp='NOPROFILE=1 && vi ~/.bash_profile && source ~/.bash_profile || source ~/.bash_profile'
+alias gitc='vi ~/.gitconfig'
+alias sshc='vi ~/.ssh/config'
+
+alias ss='cd ~/Src'
+alias ftree='tree -lahgupC'
+alias tia='tig --all'
+
+function utime() {
+    if [[ -n "$1" ]]; then
+        # Translate unix timestamp into human-readable date
+        date -r $1
+    else
+        # Print current date in unix time
+        date +%s
+    fi
+}
+
+function gen-random() {
+    cat /dev/urandom | env LC_CTYPE=C tr -dc 'a-zA-Z0-9' | fold -w "$1" | head -1
+}
+
+# Enable forward search through bash history via Ctrl-S
+# https://stackoverflow.com/a/791800
+stty -ixon
+
+# Enable bash completion
+[ -f /usr/local/etc/bash_completion ] && . /usr/local/etc/bash_completion
+
+GIT_PS1_SHOWDIRTYSTATE=true
+GIT_PS1_SHOWCOLORHINTS=true
+GIT_PS1_SHOWUNTRACKEDFILES=true
+GIT_PS1_SHOWUPSTREAM="auto"
+PS1='`if [ -n "$(jobs -p)" ]; then echo "[\j]"; fi`\w$(__git_ps1 " (%s)")$ '
+
+# Unlimited bash history
+# https://stackoverflow.com/a/12234989
+export HISTFILESIZE=
+export HISTSIZE=
+# https://superuser.com/a/753158
+export HISTFILE=~/.bash_eternal_history
+
+IPYTHON_VIRTUALENV_PATH=~/Src/ipython_venv
+alias ipython="VIRTUALENV_PATH=$IPYTHON_VIRTUALENV_PATH ~/.bin/virtualenvify ipython"
+
+# Default AWS profile for MFA-enabled creds
+export AWS_PROFILE=mfa_session
+
+for f in $HOME/.bash_profile.d/*; do
+   source $f
+done
