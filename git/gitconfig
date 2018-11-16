@@ -1,9 +1,9 @@
 [user]
-	name =
-	email =
-[github]
-	user =
-	token =
+	name = Leevar Williams
+	email = williams@renew.com
+#[github]
+#	user =
+#	token =
 [color]
 	branch = auto
 	diff = auto
@@ -23,19 +23,24 @@
 	tool = vimdiff
 	conflictstyle = diff3
 [core]
-	editor =
-	excludesfile =
+	editor = /usr/bin/vim
+	excludesfile = ~/.gitignore
 [alias]
 	aci = add-commit
-	ci = commit
-	cia = commit --amend
+	b = branch
+	ba = branch -a
+	bd = branch -D
+	ci = commit --verbose
+	cia = commit --amend --verbose
 	co = checkout
 	com = checkout master
-	cop = checkout production
+	cor = checkout reviewed
 	cp = cherry-pick
-	d = diff -U20
-	dc = diff --cached -U20
-	dn = diff --no-index -U20
+	d = diff -U10
+	dw = diff -U10 -w -b --ignore-blank-lines
+	dc = diff --cached -U10
+	dcw = diff --cached -U10 -w -b --ignore-blank-lines
+	dn = diff --no-index -U10
 	g = grep
 	ls = ls-files
 	r = remote -v
@@ -47,11 +52,23 @@
 	sup = submodule update --init
 	supr = submodule update --init --recursive
 	plog = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
+	slog = log --reverse --format='%h %s' -10
 	pullr = pull --rebase
 	pushoh = push origin HEAD
-	rbm = rebase master
+	rbm = !git fetch origin master:master && git rebase master
+	rbr = !git fetch origin reviewed:reviewed && git rebase reviewed
 	rbc = rebase --continue
 	rbs = rebase --skip
 	rba = rebase --abort
 	poke = !git ls-remote origin | grep -w refs/heads/poke && git push origin :poke || git push origin master:poke
 	cleanall = !git gc && git remote prune origin
+[tig "bind"]
+	diff = <Ctrl-f> scroll-page-down
+	diff = <Ctrl-b> scroll-page-up
+	diff = g move-first-line
+	diff = G move-last-line
+	stage = <Ctrl-f> scroll-page-down
+	stage = <Ctrl-b> scroll-page-up
+	stage = g move-first-line
+	stage = G move-last-line
+	main = b scroll-page-up

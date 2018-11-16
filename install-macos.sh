@@ -38,6 +38,12 @@ heading Install ssh config
 backup_and_symlink $BASE_DIR/ssh/config $HOME/.ssh/config
 backup_and_symlink $BASE_DIR/ssh/bash_profile_macos $HOME/.bash_profile.d/00-ssh
 
+heading Install Git config
+backup_and_symlink $BASE_DIR/git/gitconfig $HOME/.gitconfig
+for f in $BASE_DIR/git/bin/*; do
+    backup_and_symlink $f /usr/local/bin/$(basename $f)
+done
+
 heading Install RVM config
 backup_and_symlink $BASE_DIR/rvm/profile $HOME/.profile.d/10-rvm
 
