@@ -23,10 +23,13 @@ function backup_and_symlink {
     ln -snf $src_path $dst_link
 }
 
+heading Create common directories
+for d in .bin .profile.d .bash_profile.d .config; do
+    info Creating $HOME/$d
+    mkdir -p $HOME/$d
+done
+
 heading Install Bash config
-mkdir -p $HOME/.bin
-mkdir -p $HOME/.profile.d
-mkdir -p $HOME/.bash_profile.d
 backup_and_symlink $BASE_DIR/bash/profile $HOME/.profile
 backup_and_symlink $BASE_DIR/bash/bash_profile $HOME/.bash_profile
 backup_and_symlink $BASE_DIR/bash/virtualenvify.sh $HOME/.bin/virtualenvify
@@ -40,3 +43,16 @@ backup_and_symlink $BASE_DIR/rvm/profile $HOME/.profile.d/10-rvm
 
 heading Install PyEnv config
 backup_and_symlink $BASE_DIR/pyenv/profile $HOME/.profile.d/20-pyenv
+
+heading Install Slate config
+backup_and_symlink $BASE_DIR/slate/slate.js $HOME/.slate.js
+
+heading Install Tmux config
+backup_and_symlink $BASE_DIR/tmux/tmux.conf $HOME/.tmux.conf
+
+heading Install Yamllint config
+mkdir -p $HOME/.config/yamllint
+backup_and_symlink $BASE_DIR/yamllint/config $HOME/.config/yamllint/config
+
+heading Install Flake8 config
+backup_and_symlink $BASE_DIR/flake8/config $HOME/.config/flake8
