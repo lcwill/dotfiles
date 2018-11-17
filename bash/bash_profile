@@ -1,5 +1,10 @@
-# https://superuser.com/a/313637
-source $HOME/.profile
+if [[ -z "$SKIP_SOURCE_PROFILE" ]]; then
+    # https://superuser.com/a/313637
+    source $HOME/.profile
+fi
+# Skip re-sourcing of .profile when .bash_profile is edited to prevent PATH from being extended with
+# duplicate paths
+alias bp='vi $HOME/.bash_profile && SKIP_SOURCE_PROFILE=1 source $HOME/.bash_profile || SKIP_SOURCE_PROFILE=1 source $HOME/.bash_profile'
 
 # https://askubuntu.com/a/22043
 alias sudo='sudo '
@@ -12,7 +17,6 @@ alias ls='ls -G'
 alias vi=nvim
 alias vim=nvim
 
-alias bp='NOPROFILE=1 && vi ~/.bash_profile && source ~/.bash_profile || source ~/.bash_profile'
 alias gitc='vi ~/.gitconfig'
 alias sshc='vi ~/.ssh/config'
 
