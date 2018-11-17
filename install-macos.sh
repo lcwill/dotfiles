@@ -69,3 +69,6 @@ backup_and_symlink $BASE_DIR/yamllint $HOME/.config/yamllint
 
 heading Install Flake8 config
 backup_and_symlink $BASE_DIR/flake8/config $HOME/.config/flake8
+
+heading Install htop config
+backup_and_symlink $BASE_DIR/htop $HOME/.config/htop
