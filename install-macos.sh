@@ -44,6 +44,11 @@ for f in $BASE_DIR/git/bin/*; do
     backup_and_symlink $f /usr/local/bin/$(basename $f)
 done
 
+heading Install Vim/Neovim config
+backup_and_symlink $BASE_DIR/vim/init.vim $HOME/.vimrc
+backup_and_symlink $BASE_DIR/vim $HOME/.vim
+backup_and_symlink $BASE_DIR/vim $HOME/.config/nvim
+
 heading Install RVM config
 backup_and_symlink $BASE_DIR/rvm/profile $HOME/.profile.d/10-rvm
 
