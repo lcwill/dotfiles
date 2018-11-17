@@ -49,6 +49,9 @@ backup_and_symlink $BASE_DIR/vim/init.vim $HOME/.vimrc
 backup_and_symlink $BASE_DIR/vim $HOME/.vim
 backup_and_symlink $BASE_DIR/vim $HOME/.config/nvim
 
+heading Install AWS config
+backup_and_symlink $BASE_DIR/aws $HOME/.aws
+
 heading Install RVM config
 backup_and_symlink $BASE_DIR/rvm/profile $HOME/.profile.d/10-rvm
 
