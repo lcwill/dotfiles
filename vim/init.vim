@@ -150,7 +150,10 @@ nnoremap <leader>c :ConqueTerm bash<cr>
 nnoremap <leader>cv :ConqueTermVSplit bash<cr>
 
 " Map \y to copy buffer contents to clipboard
-noremap <leader>y y :PBCopy<CR>
+function! PBCopy()
+  call system("pbcopy", getreg(""))
+endfunction
+noremap <leader>y y :call PBCopy()<CR>
 
 " Map \g to generate git url for current file
 "noremap <leader>g :Gitlink<CR>

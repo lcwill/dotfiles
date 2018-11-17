@@ -13,9 +13,6 @@
 [submodule "vim/bundle/command-t"]
 	path = vim/bundle/command-t
 	url = https://github.com/wincent/command-t
-[submodule "vim/bundle/pbcopy.vim"]
-	path = vim/bundle/pbcopy.vim
-	url = https://github.com/vim-scripts/pbcopy.vim
 [submodule "vim/bundle/vim-bracketed-paste"]
 	path = vim/bundle/vim-bracketed-paste
 	url = https://github.com/ConradIrwin/vim-bracketed-paste
