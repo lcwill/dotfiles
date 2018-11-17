@@ -51,7 +51,13 @@ set noswapfile
 " Tab-completion for filenames, ignore hidden/temp files
 set wildmenu
 set wildmode=list:longest,full
-set wildignore+=.git,.svn,current,svn,tmp*,node_modules,*.pyc,htmlcov
+set wildignore+=.git,node_modules,*.pyc,htmlcov
+
+" Supplement Command-T ignore list
+let g:CommandTWildIgnore=&wildignore . ",*/data/build,*/codegen,*/vim/undodir"
+
+" Map \f to refresh command-t file list
+nnoremap <leader>f :CommandTFlush<cr>
 
 " Remove ALL autocommands for the current group
 autocmd!
@@ -139,9 +145,6 @@ nnoremap <leader>b :buffers<cr>
 nnoremap <leader>d :bp\|sp\|bn\|bd<cr>
 nnoremap <leader>n :enew<cr>
 
-" Map \f to refresh command-t file list
-nnoremap <leader>f :CommandTFlush<cr>
-
 " Map \c to open Conque terminal
 nnoremap <leader>c :ConqueTerm bash<cr>
 nnoremap <leader>cv :ConqueTermVSplit bash<cr>
@@ -151,9 +154,6 @@ noremap <leader>y y :PBCopy<CR>
 
 " Map \g to generate git url for current file
 "noremap <leader>g :Gitlink<CR>
-
-" Supplement Command-T ignore list
-let g:CommandTWildIgnore=&wildignore . ",*/data/build,*/codegen"
 
 " Automatically set paste mode when pasting in insert mode
 " https://github.com/ConradIrwin/vim-bracketed-paste/blob/master/plugin/bracketed-paste.vim
