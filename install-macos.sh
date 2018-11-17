@@ -65,8 +65,7 @@ heading Install Tmux config
 backup_and_symlink $BASE_DIR/tmux/tmux.conf $HOME/.tmux.conf
 
 heading Install Yamllint config
-mkdir -p $HOME/.config/yamllint
-backup_and_symlink $BASE_DIR/yamllint/config $HOME/.config/yamllint/config
+backup_and_symlink $BASE_DIR/yamllint $HOME/.config/yamllint
 
 heading Install Flake8 config
 backup_and_symlink $BASE_DIR/flake8/config $HOME/.config/flake8
