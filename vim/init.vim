@@ -145,10 +145,6 @@ nnoremap <leader>b :buffers<cr>
 nnoremap <leader>d :bp\|sp\|bn\|bd<cr>
 nnoremap <leader>n :enew<cr>
 
-" Map \c to open Conque terminal
-nnoremap <leader>c :ConqueTerm bash<cr>
-nnoremap <leader>cv :ConqueTermVSplit bash<cr>
-
 " Map \y to copy buffer contents to clipboard
 function! PBCopy()
   call system("pbcopy", getreg(""))
