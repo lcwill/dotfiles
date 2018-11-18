@@ -64,6 +64,8 @@ backup_and_symlink $BASE_DIR/slate/slate.js $HOME/.slate.js
 
 heading "Install Tmux config"
 backup_and_symlink $BASE_DIR/tmux/tmux.conf $HOME/.tmux.conf
+mkdir -p $HOME/.tmux
+backup_and_symlink $BASE_DIR/tmux/plugins $HOME/.tmux/plugins
 
 heading "Install Yamllint config"
 backup_and_symlink $BASE_DIR/yamllint $HOME/.config/yamllint
