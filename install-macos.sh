@@ -40,6 +40,7 @@ backup_and_symlink $BASE_DIR/ssh/bash_profile_macos $HOME/.bash_profile.d/00-ssh
 
 heading "Install Git config"
 backup_and_symlink $BASE_DIR/git/gitconfig $HOME/.gitconfig
+backup_and_symlink $BASE_DIR/git/gitignore $HOME/.gitignore
 for f in $BASE_DIR/git/bin/*; do
     backup_and_symlink $f /usr/local/bin/$(basename $f)
 done
