@@ -116,13 +116,6 @@ vnoremap <tab> %
 nnoremap ; $
 vnoremap ; $
 
-" Mappings for navigation between panes
-nmap <silent> <c-k> :wincmd k<CR>
-nmap <silent> <c-j> :wincmd j<CR>
-nmap <silent> <c-h> :wincmd h<CR>
-nmap <silent> <c-l> :wincmd l<CR>
-nmap <silent> <c-j><c-j> :close<CR>
-
 " Map \e to opening and auto-loading this config file
 map <leader>e :e! ~/.vimrc<cr>
 autocmd! bufwritepost .vimrc source ~/.vimrc
@@ -154,8 +147,14 @@ noremap <leader>y y :call PBCopy()<CR>
 " Map \g to generate git url for current file
 "noremap <leader>g :Gitlink<CR>
 
+" Disable tmux navigator when zooming the Vim pane
+let g:tmux_navigator_disable_when_zoomed=1
+
+" Write current buffer (if changed) before navigating from Vim to tmux pane
+let g:tmux_navigator_save_on_switch=1
+
 " Automatically set paste mode when pasting in insert mode
-" https://github.com/ConradIrwin/vim-bracketed-paste/blob/master/plugin/bracketed-paste.vim
+" https://github.com/ConradIrwin/vim-bracketed-paste
 if !exists("g:bracketed_paste_tmux_wrap")
   let g:bracketed_paste_tmux_wrap = 1
 endif
