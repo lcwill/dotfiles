@@ -7,8 +7,6 @@ if has('nvim')
   let g:pymode_python='python3'
   let g:pymode_options_max_line_length=100
   let g:pymode_breakpoint_bind='<leader>B'
-  " let g:pymode_virtualenv=1
-  " let g:pymode_virtualenv_path='/Users/lwilliams/.pyenv/versions/nvim-python3/bin/python'
 
   " Use only a subset of default pymode options
   let g:pymode_options=0
@@ -19,6 +17,7 @@ if has('nvim')
   setlocal define=^\s*\\(def\\\\|class\\)
 
   " Neovim Providers
+  " TODO: Switch to $HOME once Neovim 0.3.2 released: https://github.com/neovim/neovim/issues/8778
   let g:ruby_host_prog='/Users/lwilliams/.rvm/gems/ruby-2.3.7/bin/neovim-ruby-host'
   let g:python_host_prog='/Users/lwilliams/.pyenv/versions/nvim-python/bin/python'
   let g:python3_host_prog='/Users/lwilliams/.pyenv/versions/nvim-python3/bin/python'
@@ -27,7 +26,6 @@ if has('nvim')
   " Disable pymode linters in favor of Syntastic
   let g:pymode_lint=0
 
-  autocmd VimEnter rvm use 2.3.7
   " Point to lint executables within nvim python virtualenv
   let g:syntastic_yaml_yamllint_exec='$HOME/.pyenv/versions/nvim-python3/bin/yamllint'
   let g:syntastic_python_flake8_exec='$HOME/.pyenv/versions/nvim-python3/bin/flake8'
