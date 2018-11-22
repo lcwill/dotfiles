@@ -7,12 +7,18 @@ if has('nvim')
   let g:pymode_python='python3'
   let g:pymode_lint=1
   let g:pymode_lint_checkers=['pyflakes', 'pep8', 'flake8']
-  let g:pymode_options=1
   let g:pymode_options_max_line_length=100
   let g:pymode_breakpoint_bind='<leader>B'
   " let g:pymode_virtualenv=1
   " let g:pymode_virtualenv_path='/Users/lwilliams/.pyenv/versions/nvim-python3/bin/python'
-  set wrap
+
+  " Use only a subset of default pymode options
+  let g:pymode_options=0
+  setlocal complete+=t
+  setlocal formatoptions-=t
+  setlocal number
+  setlocal commentstring=#%s
+  setlocal define=^\s*\\(def\\\\|class\\)
 
   " Neovim Providers
   let g:ruby_host_prog='/Users/lwilliams/.rvm/gems/ruby-2.3.7/bin/neovim-ruby-host'
@@ -38,6 +44,7 @@ set cursorline
 set ttyfast
 set ruler
 set laststatus=2
+set wrap
 
 " Keep an undo file to persist undo history across sessions
 set undofile
