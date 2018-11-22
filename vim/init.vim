@@ -5,8 +5,6 @@ execute pathogen#infect()
 if has('nvim')
   " Customize pymode plugin
   let g:pymode_python='python3'
-  let g:pymode_lint=1
-  let g:pymode_lint_checkers=['pyflakes', 'pep8', 'flake8']
   let g:pymode_options_max_line_length=100
   let g:pymode_breakpoint_bind='<leader>B'
   " let g:pymode_virtualenv=1
@@ -26,10 +24,13 @@ if has('nvim')
   let g:python3_host_prog='/Users/lwilliams/.pyenv/versions/nvim-python3/bin/python'
   let g:loaded_node_provider=1
 
-  let g:syntastic_yaml_checkers=['yamllint']
-  let g:syntastic_yaml_yamllint_exec='/Users/lwilliams/.pyenv/versions/nvim-python3/bin/yamllint'
+  " Disable pymode linters in favor of Syntastic
+  let g:pymode_lint=0
 
   autocmd VimEnter rvm use 2.3.7
+  " Point to lint executables within nvim python virtualenv
+  let g:syntastic_yaml_yamllint_exec='$HOME/.pyenv/versions/nvim-python3/bin/yamllint'
+  let g:syntastic_python_flake8_exec='$HOME/.pyenv/versions/nvim-python3/bin/flake8'
 endif
 
 " Basic settings
@@ -194,31 +195,23 @@ vmap <expr> <f28> XTermPasteBegin("c")
 cmap <f28> <nop>
 cmap <f29> <nop>
 
-" Setup syntastic
-"pip install flake8
-"pip install flake8-quotes
-"pip install git+https://github.com/PyCQA/flake8-import-order.git@master
-
+" Configure syntastic checkers
 let g:syntastic_javascript_eslint_exec='eslint'
 let g:syntastic_javascript_checkers=['eslint']
 let g:syntastic_yaml_checkers=['yamllint']
+let g:syntastic_python_checkers=['flake8']
+let g:syntastic_mode_map={'mode': 'active',
+\ 'active_filetypes': ['javascript', 'vim', 'ansible', 'python', 'yaml'] }
+
+" Configure syntastic behavior
 let g:syntastic_style_error_symbol='✠'
 let g:syntastic_style_warning_symbol='≈'
 let g:syntastic_error_symbol='✗'
 let g:syntastic_warning_symbol='⚠'
-let g:syntastic_auto_loc_list=0
+let g:syntastic_auto_loc_list=1
+let g:syntastic_always_populate_loc_list=1
 let g:syntastic_loc_list_height=5
 let g:syntastic_stl_format='[%E{Err: %fe (%e)}%B{|}%W{Warn: %fw (%w)}]'
-" Only use syntastic for python if pymode not enabled
-if !exists('pymode')
-  let g:syntastic_python_python_exec='/Users/lwilliams/.pyenv/shims/python3'
-  let g:syntastic_python_checkers=['flake8']
-  let g:syntastic_mode_map={'mode': 'active',
-    \ 'active_filetypes': ['javascript', 'vim', 'ansible', 'python'] }
-else
-  let g:syntastic_mode_map={'mode': 'active',
-    \ 'active_filetypes': ['javascript', 'vim', 'ansible'] }
-endif
 
 " Map \0 to reset syntastic
 nnoremap <leader>0 :SyntasticReset<cr>
