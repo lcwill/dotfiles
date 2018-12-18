@@ -44,6 +44,7 @@ set ttyfast
 set ruler
 set laststatus=2
 set wrap
+set number
 
 " Keep an undo file to persist undo history across sessions
 set undofile
