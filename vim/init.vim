@@ -224,17 +224,3 @@ autocmd FileType dosini setlocal commentstring=#\ %s
 
 " Customize vim-gitgutter plugin
 set updatetime=200
-
-" Customize status line
-set statusline=%F\      "filename
-set statusline+=%h      "help file flag
-set statusline+=%m      "modified flag
-set statusline+=%r      "read only flag
-set statusline+=%y      "filetype
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
-set statusline+=%=      "left/right separator
-set statusline+=%c,     "cursor column
-set statusline+=%l/%L   "cursor line/total lines
-set statusline+=\ %P    "percent through file
