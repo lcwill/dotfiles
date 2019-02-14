@@ -137,6 +137,12 @@ nnoremap <leader><space> :noh<cr>
 " Map \= to resize split panes to be equal
 nnoremap <leader>= <c-w>=<cr>
 
+" Map \- to decrease width of current pane
+nnoremap <leader>- :vertical resize -5<cr>
+
+" Map \+ to increase width of current pane
+nnoremap <leader>+ :vertical resize +5<cr>
+
 " Map \\ to maximize current pane
 nnoremap <leader><leader> <c-w>\|<cr>
 
@@ -224,3 +230,19 @@ autocmd FileType dosini setlocal commentstring=#\ %s
 
 " Customize vim-gitgutter plugin
 set updatetime=200
+
+" Customize vim-airline
+
+" Remove leftmost section (mode indicator)
+let g:airline_section_a = ''
+
+" Update ctermfg color to white for dark theme inactive palette
+let g:airline_theme_patch_func = 'AirlineThemePatch'
+function! AirlineThemePatch(palette)
+  " Update ctermfg color to white for dark theme inactive palette
+  if g:airline_theme == 'dark'
+    for colors in values(a:palette.inactive)
+      let colors[2] = 255
+    endfor
+  endif
+endfunction
