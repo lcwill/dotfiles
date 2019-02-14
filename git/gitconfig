@@ -47,6 +47,7 @@
 	rs = remote show origin
 	rhm = reset --hard master
 	rho = reset --hard origin/master
+	rsh = reset --soft HEAD~1
 	st = status
 	sub = submodule
 	sup = submodule update --init
