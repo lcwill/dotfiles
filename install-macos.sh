@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Exit script on command failure
+set -e
+
 DATE=$(date +%s)
 BASE_DIR=$(cd $(dirname "${BASH_SOURCE[0]}") && pwd)
 BACKUP_DIR=$BASE_DIR/.backup
@@ -44,6 +47,24 @@ backup_and_symlink $BASE_DIR/git/gitignore $HOME/.gitignore
 for f in $BASE_DIR/git/bin/*; do
     backup_and_symlink $f /usr/local/bin/$(basename $f)
 done
+
+heading "Install Neovim"
+NVIM_VERSION=0.3.4
+if ! nvim --version 2>/dev/null | grep "v$NVIM_VERSION" > /dev/null; then
+    NVIM_DOWNLOAD_PATH="$(mktemp -d)/nvim-macos-${NVIM_VERSION}.tar.gz"
+    NVIM_INSTALL_PATH="$HOME/nvim-${NVIM_VERSION}-osx64"
+    NVIM_INSTALL_SYMLINK="$HOME/nvim-osx64"
+    NVIM_RELEASE_URL="https://github.com/neovim/neovim/releases/download/v${NVIM_VERSION}/nvim-macos.tar.gz"
+
+    info Downloading and unzipping NVIM v$NVIM_VERSION to $NVIM_INSTALL_PATH
+    curl -sL -o $NVIM_DOWNLOAD_PATH $NVIM_RELEASE_URL
+    temp_dir=$(mktemp -d)
+    tar -C $temp_dir -xf $NVIM_DOWNLOAD_PATH
+    rm -rf $NVIM_INSTALL_PATH
+    mv $temp_dir/nvim-osx64 $NVIM_INSTALL_PATH
+    backup_and_symlink $NVIM_INSTALL_PATH $NVIM_INSTALL_SYMLINK
+fi
+info "NVIM v$NVIM_VERSION installed"
 
 heading "Install Vim/Neovim config"
 backup_and_symlink $BASE_DIR/vim/init.vim $HOME/.vimrc
