@@ -17,10 +17,9 @@ if has('nvim')
   setlocal define=^\s*\\(def\\\\|class\\)
 
   " Neovim Providers
-  " TODO: Switch to $HOME once Neovim 0.3.2 released: https://github.com/neovim/neovim/issues/8778
-  let g:ruby_host_prog='/Users/lwilliams/.rvm/gems/ruby-2.3.7/bin/neovim-ruby-host'
-  let g:python_host_prog='/Users/lwilliams/.pyenv/versions/nvim-python/bin/python'
-  let g:python3_host_prog='/Users/lwilliams/.pyenv/versions/nvim-python3/bin/python'
+  let g:ruby_host_prog='$HOME/.rvm/gems/ruby-2.3.7/bin/neovim-ruby-host'
+  let g:python_host_prog='$HOME/.pyenv/versions/nvim-python/bin/python'
+  let g:python3_host_prog='$HOME/.pyenv/versions/nvim-python3/bin/python'
   let g:loaded_node_provider=1
 
   " Disable pymode linters in favor of Syntastic
