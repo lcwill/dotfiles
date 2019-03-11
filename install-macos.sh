@@ -35,6 +35,26 @@ function brew_install {
     info $package installed
 }
 
+function brew_check_and_upgrade_version {
+    local package=$1
+    local version=$2
+    if ! brew list --versions -l $package | grep -E " $version(_[0-9])?( .+)?\$" > /dev/null; then
+        local stable_version=$(brew info --json $package | jq -r '.[0].versions.stable')
+        if [[ "$stable_version" != "$version" ]]; then
+            error $package $version not available as a stable version via HomeBrew
+            exit 1
+        fi
+        if brew list $package > /dev/null 2>&1; then
+            info Upgrading $package
+            brew upgrade $package
+        else
+            info Installing $package
+            brew install $package
+        fi
+    fi
+    info $package $version installed
+}
+
 heading "Create common directories"
 for d in .bin .profile.d .bash_profile.d .config; do
     info Creating $HOME/$d
@@ -54,6 +74,10 @@ backup_and_symlink $BASE_DIR/bash/virtualenvify.sh $HOME/.bin/virtualenvify
 heading "Install ssh config"
 backup_and_symlink $BASE_DIR/ssh/config $HOME/.ssh/config
 backup_and_symlink $BASE_DIR/ssh/bash_profile_macos $HOME/.bash_profile.d/00-ssh
+
+heading "Install tig"
+TIG_VERSION=2.4.1
+brew_check_and_upgrade_version tig $TIG_VERSION
 
 heading "Install Git config"
 backup_and_symlink $BASE_DIR/git/gitconfig $HOME/.gitconfig
@@ -91,11 +115,20 @@ backup_and_symlink $BASE_DIR/aws $HOME/.aws
 heading "Install RVM config"
 backup_and_symlink $BASE_DIR/rvm/profile $HOME/.profile.d/10-rvm
 
+heading "Install Pyenv"
+PYENV_VERSION=1.2.9
+brew_check_and_upgrade_version pyenv $PYENV_VERSION
+
 heading "Install PyEnv config"
 backup_and_symlink $BASE_DIR/pyenv/profile $HOME/.profile.d/20-pyenv
 
+# To install: https://github.com/jigish/slate#installing-slate
 heading "Install Slate config"
 backup_and_symlink $BASE_DIR/slate/slate.js $HOME/.slate.js
+
+heading "Install Tmux"
+TMUX_VERSION=2.8
+brew_check_and_upgrade_version tmux $TMUX_VERSION
 
 heading "Install Tmux config"
 backup_and_symlink $BASE_DIR/tmux/tmux.conf $HOME/.tmux.conf
