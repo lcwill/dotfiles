@@ -146,3 +146,23 @@ backup_and_symlink $BASE_DIR/eslint/eslintrc $HOME/.eslintrc
 
 heading "Install htop config"
 backup_and_symlink $BASE_DIR/htop $HOME/.config/htop
+
+heading "Install Docker"
+if ! docker version > /dev/null 2>&1; then
+    DOCKER_DOWNLOAD_PATH="$(mktemp -d)/Docker.dmg"
+    DOCKER_RELEASE_URL="https://download.docker.com/mac/stable/Docker.dmg"
+    DOCKER_MOUNT_PATH="$(mktemp -d)/Docker_Volume"
+
+    info Downloading Docker OSX image
+    curl -sL -o $DOCKER_DOWNLOAD_PATH $DOCKER_RELEASE_URL
+
+    info Mounting image and installing Docker application
+    hdiutil attach $DOCKER_DOWNLOAD_PATH -nobrowse -noautoopen -mountpoint $DOCKER_MOUNT_PATH
+    cp -r $DOCKER_MOUNT_PATH/Docker.app /Applications
+    hdiutil detach $DOCKER_MOUNT_PATH
+
+    info Starting Docker daemon
+    open --hide --background -a Docker
+fi
+DOCKER_VERSION=$(echo $(docker system info | grep Server.Version | cut -d: -f2))
+info "Docker $DOCKER_VERSION installed"
