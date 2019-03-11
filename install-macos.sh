@@ -26,10 +26,24 @@ function backup_and_symlink {
     ln -snf $src_path $dst_link
 }
 
+function brew_install {
+    local package=$1
+    if ! brew list $package > /dev/null 2>&1; then
+        info Installing $package
+        brew install $package
+    fi
+    info $package installed
+}
+
 heading "Create common directories"
 for d in .bin .profile.d .bash_profile.d .config; do
     info Creating $HOME/$d
     mkdir -p $HOME/$d
+done
+
+heading "Install common packages"
+for p in git jq htop; do
+    brew_install $p
 done
 
 heading "Install Bash config"
