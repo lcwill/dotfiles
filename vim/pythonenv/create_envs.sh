@@ -18,6 +18,7 @@ function install_and_create_virtualenv {
     pip install -r $requirementsfile
 }
 
-install_and_create_virtualenv 2.7.10 nvim-python python2.7-requirements.lock
-install_and_create_virtualenv 3.5.5 nvim-python3 python3.5-requirements.lock
-install_and_create_virtualenv 3.7.2 nvim-python37 python3.7-requirements.lock
+basedir=$(dirname $0)
+install_and_create_virtualenv 2.7.10 nvim-python $basedir/python2.7-requirements.lock
+install_and_create_virtualenv 3.5.5 nvim-python3 $basedir/python3.5-requirements.lock
+install_and_create_virtualenv 3.7.2 nvim-python37 $basedir/python3.7-requirements.lock

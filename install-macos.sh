@@ -62,7 +62,7 @@ for d in .bin .profile.d .bash_profile.d .config; do
 done
 
 heading "Install common packages"
-for p in git jq htop; do
+for p in git jq htop sqlite zlib; do
     brew_install $p
 done
 
