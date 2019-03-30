@@ -19,15 +19,15 @@ if has('nvim')
   " Neovim Providers
   let g:ruby_host_prog='$HOME/.rvm/gems/ruby-2.3.7/bin/neovim-ruby-host'
   let g:python_host_prog='$HOME/.pyenv/versions/nvim-python/bin/python'
-  let g:python3_host_prog='$HOME/.pyenv/versions/nvim-python3/bin/python'
+  let g:python3_host_prog='$HOME/.pyenv/versions/nvim-python37/bin/python'
   let g:loaded_node_provider=1
 
   " Disable pymode linters in favor of Syntastic
   let g:pymode_lint=0
 
   " Point to lint executables within nvim python virtualenv
-  let g:syntastic_yaml_yamllint_exec='$HOME/.pyenv/versions/nvim-python3/bin/yamllint'
-  let g:syntastic_python_flake8_exec='$HOME/.pyenv/versions/nvim-python3/bin/flake8'
+  let g:syntastic_yaml_yamllint_exec='$HOME/.pyenv/versions/nvim-python37/bin/yamllint'
+  let g:syntastic_python_flake8_exec='$HOME/.pyenv/versions/nvim-python37/bin/flake8'
 endif
 
 " Basic settings
