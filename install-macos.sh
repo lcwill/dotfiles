@@ -119,6 +119,11 @@ heading "Install Vim/Neovim config"
 backup_and_symlink $BASE_DIR/vim/init.vim $HOME/.vimrc
 backup_and_symlink $BASE_DIR/vim $HOME/.vim
 backup_and_symlink $BASE_DIR/vim $HOME/.config/nvim
+# Ensure plugin submodules have been initialized (none of the status lines should be prefixed with
+# '-')
+if git submodule status | grep "^-" > /dev/null; then
+    git submodule update --init
+fi
 
 heading "Install AWS config"
 backup_and_symlink $BASE_DIR/aws $HOME/.aws
