@@ -73,6 +73,35 @@ function create_ruby_env {
     rvm $rubyversion \do gem install --file $depsfile
 }
 
+function install_and_create_virtualenv {
+    local pythonversion=$1
+    local virtualenvname=$2
+    local requirementsfile=$3
+
+    # Install Python version
+    if ! pyenv versions --bare | grep "^$pythonversion\$" > /dev/null; then
+        # https://github.com/pyenv/pyenv/issues/1219
+        export LDFLAGS="-L/usr/local/opt/zlib/lib -L/usr/local/opt/sqlite/lib"
+        export CPPFLAGS="-I/usr/local/opt/zlib/include -I/usr/local/opt/sqlite/include"
+        info Installing Python $pythonversion
+        pyenv install $pythonversion
+    fi
+
+    # Create virtualenv
+    info "Updating Python dependencies for virtualenv $virtualenvname"
+    if ! pyenv virtualenvs --bare | grep "^$virtualenvname\$" > /dev/null; then
+        pyenv virtualenv $pythonversion $virtualenvname
+    fi
+
+    # Install/update virtualenv dependencies
+    eval "$(pyenv init -)"
+    eval "$(pyenv virtualenv-init -)"
+    pyenv activate $virtualenvname > /dev/null 2>&1
+    pip install --upgrade pip setuptools > /dev/null 2>&1
+    pip install -r $requirementsfile
+    pyenv deactivate
+}
+
 heading "Install Xcode tools and Homebrew"
 if ! 'xcode-select' -p > /dev/null 2>&1; then
     'xcode-select' --install
@@ -171,6 +200,14 @@ brew_install pyenv-virtualenv
 
 heading "Install PyEnv config"
 backup_and_symlink $BASE_DIR/pyenv/profile $HOME/.profile.d/20-pyenv
+
+heading "Install Python versions"
+install_and_create_virtualenv 2.7.10 nvim-python \
+    $BASE_DIR/vim/pythonenv/python2.7-requirements.lock
+install_and_create_virtualenv 3.5.5 nvim-python3 \
+    $BASE_DIR/vim/pythonenv/python3.5-requirements.lock
+install_and_create_virtualenv 3.7.2 nvim-python37 \
+    $BASE_DIR/vim/pythonenv/python3.7-requirements.lock
 
 # To install: https://github.com/jigish/slate#installing-slate
 heading "Install Slate config"
