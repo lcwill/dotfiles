@@ -55,6 +55,14 @@ function brew_check_and_upgrade_version {
     info $package $version installed
 }
 
+heading "Install Xcode tools and Homebrew"
+if ! xcode-select -p > /dev/null 2>&1; then
+    xcode-select --install
+fi
+if ! command -v brew > /dev/null 2>&1; then
+    ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+fi
+
 heading "Create common directories"
 for d in .bin .profile.d .bash_profile.d .config; do
     info Creating $HOME/$d
@@ -62,7 +70,7 @@ for d in .bin .profile.d .bash_profile.d .config; do
 done
 
 heading "Install common packages"
-for p in git jq htop sqlite zlib; do
+for p in bash-completion git jq htop sqlite zlib; do
     brew_install $p
 done
 
@@ -72,6 +80,8 @@ backup_and_symlink $BASE_DIR/bash/bash_profile $HOME/.bash_profile
 backup_and_symlink $BASE_DIR/bash/virtualenvify.sh $HOME/.bin/virtualenvify
 
 heading "Install ssh config"
+mkdir -p $HOME/.ssh
+chmod 700 $HOME/.ssh
 backup_and_symlink $BASE_DIR/ssh/config $HOME/.ssh/config
 backup_and_symlink $BASE_DIR/ssh/bash_profile_macos $HOME/.bash_profile.d/00-ssh
 
@@ -88,9 +98,9 @@ done
 
 heading "Install Neovim"
 NVIM_VERSION=0.3.4
+NVIM_INSTALL_PATH="$HOME/nvim-${NVIM_VERSION}-osx64"
 if ! nvim --version 2>/dev/null | grep "v$NVIM_VERSION" > /dev/null; then
     NVIM_DOWNLOAD_PATH="$(mktemp -d)/nvim-macos-${NVIM_VERSION}.tar.gz"
-    NVIM_INSTALL_PATH="$HOME/nvim-${NVIM_VERSION}-osx64"
     NVIM_INSTALL_SYMLINK="$HOME/nvim-osx64"
     NVIM_RELEASE_URL="https://github.com/neovim/neovim/releases/download/v${NVIM_VERSION}/nvim-macos.tar.gz"
 
@@ -102,6 +112,7 @@ if ! nvim --version 2>/dev/null | grep "v$NVIM_VERSION" > /dev/null; then
     mv $temp_dir/nvim-osx64 $NVIM_INSTALL_PATH
     backup_and_symlink $NVIM_INSTALL_PATH $NVIM_INSTALL_SYMLINK
 fi
+backup_and_symlink $NVIM_INSTALL_PATH/bin/nvim /usr/local/bin/nvim
 info "NVIM v$NVIM_VERSION installed"
 
 heading "Install Vim/Neovim config"
@@ -175,5 +186,9 @@ if ! docker version > /dev/null 2>&1; then
     info Starting Docker daemon
     open --hide --background -a Docker
 fi
+until command -v docker > /dev/null 2>&1; do
+    echo "Waiting for Docker installation..."
+    sleep 2
+done
 DOCKER_VERSION=$(echo $(docker system info | grep Server.Version | cut -d: -f2))
 info "Docker $DOCKER_VERSION installed"
