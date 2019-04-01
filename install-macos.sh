@@ -112,6 +112,16 @@ backup_and_symlink $BASE_DIR/vim $HOME/.config/nvim
 heading "Install AWS config"
 backup_and_symlink $BASE_DIR/aws $HOME/.aws
 
+heading "Install RVM"
+if ! rvm --version > /dev/null 2>&1; then
+    RVM_RELEASE_URL="https://get.rvm.io"
+
+    # https://rvm.io/rvm/install
+    info Installing RVM from $RVM_RELEASE_URL
+    export rvm_ignore_dotfiles=yes
+    curl -sSL $RVM_RELEASE_URL | bash -s stable
+fi
+
 heading "Install RVM config"
 backup_and_symlink $BASE_DIR/rvm/profile $HOME/.profile.d/10-rvm
 
