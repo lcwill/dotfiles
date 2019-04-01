@@ -55,9 +55,27 @@ function brew_check_and_upgrade_version {
     info $package $version installed
 }
 
+function create_ruby_env {
+    local rubyversion=$1
+    local rubypatchlevel=$2
+    local depsfile=$3
+
+    # Install Ruby version
+    if ! rvm list strings | grep "^ruby-$rubyversion\$" > /dev/null; then
+        # https://stackoverflow.com/questions/37336573/unable-to-require-openssl-install-openssl-and-rebuild-ruby-preferred-or-use-n
+        local openssldir=$(brew --prefix openssl)
+        info Installing Ruby $rubyversion
+        rvm install $rubyversion -l $rubypatchlevel --with-openssl-dir=$openssldir
+    fi
+
+    # Install/update gem dependencies
+    info Updating Ruby dependencies
+    rvm $rubyversion \do gem install --file $depsfile
+}
+
 heading "Install Xcode tools and Homebrew"
-if ! xcode-select -p > /dev/null 2>&1; then
-    xcode-select --install
+if ! 'xcode-select' -p > /dev/null 2>&1; then
+    'xcode-select' --install
 fi
 if ! command -v brew > /dev/null 2>&1; then
     ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
@@ -140,6 +158,11 @@ fi
 
 heading "Install RVM config"
 backup_and_symlink $BASE_DIR/rvm/profile $HOME/.profile.d/10-rvm
+
+heading "Install Ruby versions"
+# Install Ruby 2.3.7 with required Neovim dependencies and set as default
+create_ruby_env 2.3.7 456 $BASE_DIR/vim/rubyenv/ruby2.3.7-gem.deps.rb
+rvm alias create default 2.3.7
 
 heading "Install Pyenv"
 PYENV_VERSION=1.2.9
