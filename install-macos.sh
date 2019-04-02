@@ -171,6 +171,15 @@ backup_and_symlink $BASE_DIR/vim $HOME/.config/nvim
 if git submodule status | grep "^-" > /dev/null; then
     git submodule update --init
 fi
+# Compile C extension for Vim Command-T plugin
+if [[ ! -f $BASE_DIR/vim/bundle/command-t/ruby/command-t/ext/command-t/ext.o ]]; then
+    info Compiling Vim Command-T plugin
+    pushd $BASE_DIR/vim/bundle/command-t/ruby/command-t/ext/command-t > /dev/null 2>&1
+    [[ -f Makefile ]] && make clean
+    ruby extconf.rb
+    make
+    popd > /dev/null 2>&1
+fi
 
 heading "Install AWS config"
 backup_and_symlink $BASE_DIR/aws $HOME/.aws
