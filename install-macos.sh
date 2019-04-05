@@ -98,7 +98,7 @@ function install_and_create_virtualenv {
     eval "$(pyenv virtualenv-init -)"
     pyenv activate $virtualenvname > /dev/null 2>&1
     pip install --upgrade pip setuptools > /dev/null 2>&1
-    pip install -r $requirementsfile
+    pip install -r $requirementsfile > /dev/null 2>&1
     pyenv deactivate
 }
 
@@ -181,9 +181,6 @@ if [[ ! -f $BASE_DIR/vim/bundle/command-t/ruby/command-t/ext/command-t/ext.o ]];
     popd > /dev/null 2>&1
 fi
 
-heading "Install AWS config"
-backup_and_symlink $BASE_DIR/aws $HOME/.aws
-
 heading "Install RVM"
 if ! rvm --version > /dev/null 2>&1; then
     RVM_RELEASE_URL="https://get.rvm.io"
@@ -202,10 +199,12 @@ heading "Install Ruby versions"
 create_ruby_env 2.3.7 456 $BASE_DIR/vim/rubyenv/ruby2.3.7-gem.deps.rb
 rvm alias create default 2.3.7
 
-heading "Install Pyenv"
+heading "Install Pyenv and Pipenv"
 PYENV_VERSION=1.2.9
+PIPENV_VERSION=2018.11.26
 brew_check_and_upgrade_version pyenv $PYENV_VERSION
 brew_install pyenv-virtualenv
+brew_check_and_upgrade_version pipenv $PIPENV_VERSION
 
 heading "Install PyEnv config"
 backup_and_symlink $BASE_DIR/pyenv/profile $HOME/.profile.d/20-pyenv
@@ -217,6 +216,16 @@ install_and_create_virtualenv 3.5.5 nvim-python3 \
     $BASE_DIR/vim/pythonenv/python3.5-requirements.lock
 install_and_create_virtualenv 3.7.2 nvim-python37 \
     $BASE_DIR/vim/pythonenv/python3.7-requirements.lock
+
+heading "Install AWS CLI"
+if ! aws --version > /dev/null 2>&1; then
+    pushd $BASE_DIR/aws > /dev/null 2>&1
+    pipenv install --ignore-pipfile
+    popd > /dev/null 2>&1
+fi
+backup_and_symlink $BASE_DIR/aws $HOME/.aws
+backup_and_symlink $BASE_DIR/aws/bin/aws /usr/local/bin/aws
+info "AWS CLI installed: $(aws --version)"
 
 # To install: https://github.com/jigish/slate#installing-slate
 heading "Install Slate config"

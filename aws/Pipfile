@@ -1,0 +1,10 @@
+[[source]]
+name = "pypi"
+url = "https://pypi.org/simple"
+verify_ssl = true
+
+[packages]
+awscli = "==1.16.136"
+botocore = ">=1.10.0"
+boto3 = ">=1.4.7"
+awscli_mfa_plugin = {editable = true,git = "ssh://git@github.com/renewdotcom/renew-dev-tools",ref = "master",subdirectory = "awscli-mfa-plugin"}

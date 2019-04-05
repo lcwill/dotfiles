@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+cd $HOME/.aws
+
+VENV_CMD_PATH=$(pipenv run which aws)
+ORIG_CMD_PATH=$(which aws)
+if [[ $VENV_CMD_PATH == $ORIG_CMD_PATH ]]; then
+    echo "Command 'aws' not available in virtualenv for $(pipenv --where)/Pipfile"
+    exit 1
+fi
+
+pipenv run aws "$@"
