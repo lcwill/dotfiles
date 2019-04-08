@@ -158,6 +158,12 @@ fi
 
 heading "Install RVM config"
 backup_and_symlink $BASE_DIR/rvm/profile $HOME/.profile.d/10-rvm
+if ! command -v rvm > /dev/null 2>&1; then
+    # Ensure that the rvm command is on the PATH for the remainder of this script, ignoring warnings
+    # about a path mismatch
+    export PATH="$PATH:$HOME/.rvm/bin"
+    export rvm_silence_path_mismatch_check_flag=1
+fi
 
 heading "Install Ruby versions"
 # Install Ruby 2.3.7 with required Neovim dependencies and set as default
