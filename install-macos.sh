@@ -180,10 +180,6 @@ install_and_create_virtualenv 3.5.5 nvim-python3 \
 install_and_create_virtualenv 3.7.2 nvim-python37 \
     $BASE_DIR/vim/pythonenv/python3.7-requirements.lock
 
-# To install: https://github.com/jigish/slate#installing-slate
-heading "Install Slate config"
-backup_and_symlink $BASE_DIR/slate/slate.js $HOME/.slate.js
-
 heading "Install Neovim"
 NVIM_VERSION=0.3.4
 NVIM_INSTALL_PATH="$HOME/nvim-${NVIM_VERSION}-osx64"
@@ -246,6 +242,10 @@ backup_and_symlink $BASE_DIR/eslint/eslintrc $HOME/.eslintrc
 
 heading "Install htop config"
 backup_and_symlink $BASE_DIR/htop $HOME/.config/htop
+
+# To install: https://github.com/jigish/slate#installing-slate
+heading "Install Slate config"
+backup_and_symlink $BASE_DIR/slate/slate.js $HOME/.slate.js
 
 heading "Install Docker"
 if ! docker version > /dev/null 2>&1; then

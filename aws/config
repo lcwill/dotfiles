@@ -8,3 +8,4 @@ s3 =
     signature_version = s3v4
 [plugins]
 mfa = awscli_mfa_plugin
+[profile default]
