@@ -143,44 +143,6 @@ for f in $BASE_DIR/git/bin/*; do
     backup_and_symlink $f /usr/local/bin/$(basename $f)
 done
 
-heading "Install Neovim"
-NVIM_VERSION=0.3.4
-NVIM_INSTALL_PATH="$HOME/nvim-${NVIM_VERSION}-osx64"
-if ! nvim --version 2>/dev/null | grep "v$NVIM_VERSION" > /dev/null; then
-    NVIM_DOWNLOAD_PATH="$(mktemp -d)/nvim-macos-${NVIM_VERSION}.tar.gz"
-    NVIM_INSTALL_SYMLINK="$HOME/nvim-osx64"
-    NVIM_RELEASE_URL="https://github.com/neovim/neovim/releases/download/v${NVIM_VERSION}/nvim-macos.tar.gz"
-
-    info Downloading and unzipping NVIM v$NVIM_VERSION to $NVIM_INSTALL_PATH
-    curl -sL -o $NVIM_DOWNLOAD_PATH $NVIM_RELEASE_URL
-    temp_dir=$(mktemp -d)
-    tar -C $temp_dir -xf $NVIM_DOWNLOAD_PATH
-    rm -rf $NVIM_INSTALL_PATH
-    mv $temp_dir/nvim-osx64 $NVIM_INSTALL_PATH
-    backup_and_symlink $NVIM_INSTALL_PATH $NVIM_INSTALL_SYMLINK
-fi
-backup_and_symlink $NVIM_INSTALL_PATH/bin/nvim /usr/local/bin/nvim
-info "NVIM v$NVIM_VERSION installed"
-
-heading "Install Vim/Neovim config"
-backup_and_symlink $BASE_DIR/vim/init.vim $HOME/.vimrc
-backup_and_symlink $BASE_DIR/vim $HOME/.vim
-backup_and_symlink $BASE_DIR/vim $HOME/.config/nvim
-# Ensure plugin submodules have been initialized (none of the status lines should be prefixed with
-# '-')
-if git submodule status | grep "^-" > /dev/null; then
-    git submodule update --init
-fi
-# Compile C extension for Vim Command-T plugin
-if [[ ! -f $BASE_DIR/vim/bundle/command-t/ruby/command-t/ext/command-t/ext.o ]]; then
-    info Compiling Vim Command-T plugin
-    pushd $BASE_DIR/vim/bundle/command-t/ruby/command-t/ext/command-t > /dev/null 2>&1
-    [[ -f Makefile ]] && make clean
-    ruby extconf.rb
-    make
-    popd > /dev/null 2>&1
-fi
-
 heading "Install AWS config"
 backup_and_symlink $BASE_DIR/aws $HOME/.aws
 
@@ -221,6 +183,44 @@ install_and_create_virtualenv 3.7.2 nvim-python37 \
 # To install: https://github.com/jigish/slate#installing-slate
 heading "Install Slate config"
 backup_and_symlink $BASE_DIR/slate/slate.js $HOME/.slate.js
+
+heading "Install Neovim"
+NVIM_VERSION=0.3.4
+NVIM_INSTALL_PATH="$HOME/nvim-${NVIM_VERSION}-osx64"
+if ! nvim --version 2>/dev/null | grep "v$NVIM_VERSION" > /dev/null; then
+    NVIM_DOWNLOAD_PATH="$(mktemp -d)/nvim-macos-${NVIM_VERSION}.tar.gz"
+    NVIM_INSTALL_SYMLINK="$HOME/nvim-osx64"
+    NVIM_RELEASE_URL="https://github.com/neovim/neovim/releases/download/v${NVIM_VERSION}/nvim-macos.tar.gz"
+
+    info Downloading and unzipping NVIM v$NVIM_VERSION to $NVIM_INSTALL_PATH
+    curl -sL -o $NVIM_DOWNLOAD_PATH $NVIM_RELEASE_URL
+    temp_dir=$(mktemp -d)
+    tar -C $temp_dir -xf $NVIM_DOWNLOAD_PATH
+    rm -rf $NVIM_INSTALL_PATH
+    mv $temp_dir/nvim-osx64 $NVIM_INSTALL_PATH
+    backup_and_symlink $NVIM_INSTALL_PATH $NVIM_INSTALL_SYMLINK
+fi
+backup_and_symlink $NVIM_INSTALL_PATH/bin/nvim /usr/local/bin/nvim
+info "NVIM v$NVIM_VERSION installed"
+
+heading "Install Vim/Neovim config"
+backup_and_symlink $BASE_DIR/vim/init.vim $HOME/.vimrc
+backup_and_symlink $BASE_DIR/vim $HOME/.vim
+backup_and_symlink $BASE_DIR/vim $HOME/.config/nvim
+# Ensure plugin submodules have been initialized (none of the status lines should be prefixed with
+# '-')
+if git submodule status | grep "^-" > /dev/null; then
+    git submodule update --init
+fi
+# Compile C extension for Vim Command-T plugin
+if [[ ! -f $BASE_DIR/vim/bundle/command-t/ruby/command-t/ext/command-t/ext.o ]]; then
+    info Compiling Vim Command-T plugin
+    pushd $BASE_DIR/vim/bundle/command-t/ruby/command-t/ext/command-t > /dev/null 2>&1
+    [[ -f Makefile ]] && make clean
+    ruby extconf.rb
+    make
+    popd > /dev/null 2>&1
+fi
 
 heading "Install Tmux"
 TMUX_VERSION=2.8
