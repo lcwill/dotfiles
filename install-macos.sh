@@ -203,7 +203,7 @@ create_ruby_env 2.3.7 456 $BASE_DIR/vim/rubyenv/ruby2.3.7-gem.deps.rb
 rvm alias create default 2.3.7
 
 heading "Install Pyenv"
-PYENV_VERSION=1.2.9
+PYENV_VERSION=1.2.10
 brew_check_and_upgrade_version pyenv $PYENV_VERSION
 brew_install pyenv-virtualenv
 
@@ -211,7 +211,7 @@ heading "Install PyEnv config"
 backup_and_symlink $BASE_DIR/pyenv/profile $HOME/.profile.d/20-pyenv
 
 heading "Install Python versions"
-install_and_create_virtualenv 2.7.10 nvim-python \
+install_and_create_virtualenv 2.7.15 nvim-python \
     $BASE_DIR/vim/pythonenv/python2.7-requirements.lock
 install_and_create_virtualenv 3.5.5 nvim-python3 \
     $BASE_DIR/vim/pythonenv/python3.5-requirements.lock
