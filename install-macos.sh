@@ -216,7 +216,7 @@ if git submodule status | grep "^-" > /dev/null; then
 fi
 # Compile C extension for Vim Command-T plugin
 COMMANDT_EXT_DIR=$BASE_DIR/vim/bundle/command-t/ruby/command-t/ext/command-t
-if [[ ! -f $COMMANDT_EXT_DIR ]]; then
+if [[ ! -f $COMMANDT_EXT_DIR/ext.o ]]; then
     info Compiling Vim Command-T plugin
     pushd $COMMANDT_EXT_DIR > /dev/null 2>&1
     if [[ -f Makefile ]]; then
