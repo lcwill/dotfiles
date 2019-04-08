@@ -6,6 +6,7 @@ set -e
 DATE=$(date +%s)
 BASE_DIR=$(cd $(dirname "${BASH_SOURCE[0]}") && pwd)
 BACKUP_DIR=$BASE_DIR/.backup
+APPLICATIONS_DIR=/Applications
 
 # Common bash variables and functions
 source $BASE_DIR/bash_functions
@@ -264,7 +265,7 @@ if ! docker version > /dev/null 2>&1; then
 
     info Mounting image and installing Docker application
     hdiutil attach $DOCKER_DOWNLOAD_PATH -nobrowse -noautoopen -mountpoint $DOCKER_MOUNT_PATH
-    cp -r $DOCKER_MOUNT_PATH/Docker.app /Applications
+    cp -R $DOCKER_MOUNT_PATH/Docker.app $APPLICATIONS_DIR
     hdiutil detach $DOCKER_MOUNT_PATH
 
     info Starting Docker daemon
@@ -276,3 +277,22 @@ until command -v docker > /dev/null 2>&1; do
 done
 DOCKER_VERSION=$(echo $(docker system info | grep Server.Version | cut -d: -f2))
 info "Docker $DOCKER_VERSION installed"
+
+heading "Install iTerm2"
+if ! ls $APPLICATIONS_DIR/iTerm* > /dev/null 2>&1; then
+    ITERM_LATEST_TAG=$(git ls-remote --sort=-version:refname --tags git@github.com:gnachman/iTerm2 | grep -o 'v\d\+\.\d\+\.\d\+$' | head -1)
+    ITERM_URL_VERSION=$(echo $ITERM_LATEST_TAG | sed 's/^v//' | sed 's/\./_/g')
+    ITERM_DOWNLOAD_PATH="$(mktemp -d)/iTerm2-${ITERM_LATEST_TAG}.zip"
+    ITERM_RELEASE_URL="https://iterm2.com/downloads/stable/iTerm2-${ITERM_URL_VERSION}.zip"
+
+    info Downloading and unzipping iTerm2 $ITERM_LATEST_TAG
+    curl -sL -o $ITERM_DOWNLOAD_PATH $ITERM_RELEASE_URL
+    temp_dir=$(mktemp -d)
+    unzip -d $temp_dir $ITERM_DOWNLOAD_PATH
+
+    # Install into Applications dir and add security exception allowing the third-party app to be
+    # opened: http://www.manpagez.com/man/8/spctl/
+    mv $temp_dir/iTerm.app $APPLICATIONS_DIR
+    spctl --add $APPLICATIONS_DIR/iTerm.app
+fi
+info "iTerm2 installed"
