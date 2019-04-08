@@ -250,9 +250,27 @@ backup_and_symlink $BASE_DIR/eslint/eslintrc $HOME/.eslintrc
 heading "Install htop config"
 backup_and_symlink $BASE_DIR/htop $HOME/.config/htop
 
-# To install: https://github.com/jigish/slate#installing-slate
 heading "Install Slate config"
 backup_and_symlink $BASE_DIR/slate/slate.js $HOME/.slate.js
+
+heading "Install Slate"
+if ! ls $APPLICATIONS_DIR/Slate.app > /dev/null 2>&1; then
+    SLATE_DOWNLOAD_PATH="$(mktemp -d)/Slate.dmg"
+    SLATE_RELEASE_URL="http://slate.ninjamonkeysoftware.com/Slate.dmg"
+    SLATE_MOUNT_PATH="$(mktemp -d)/Slate_Volume"
+
+    info Downloading Slate OSX Image
+    curl -sL -o $SLATE_DOWNLOAD_PATH $SLATE_RELEASE_URL
+
+    info Mounting image and installing Slate application
+    hdiutil attach $SLATE_DOWNLOAD_PATH -nobrowse -noautoopen -mountpoint $SLATE_MOUNT_PATH
+    cp -R $SLATE_MOUNT_PATH/Slate.app $APPLICATIONS_DIR
+    hdiutil detach $SLATE_MOUNT_PATH
+
+    info Starting Slate
+    open --hide --background -a Slate
+fi
+info "Slate installed"
 
 heading "Install Docker"
 if ! docker version > /dev/null 2>&1; then
