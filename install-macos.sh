@@ -213,11 +213,15 @@ if git submodule status | grep "^-" > /dev/null; then
     git submodule update --init
 fi
 # Compile C extension for Vim Command-T plugin
-if [[ ! -f $BASE_DIR/vim/bundle/command-t/ruby/command-t/ext/command-t/ext.o ]]; then
+COMMANDT_EXT_DIR=$BASE_DIR/vim/bundle/command-t/ruby/command-t/ext/command-t
+if [[ ! -f $COMMANDT_EXT_DIR ]]; then
     info Compiling Vim Command-T plugin
-    pushd $BASE_DIR/vim/bundle/command-t/ruby/command-t/ext/command-t > /dev/null 2>&1
-    [[ -f Makefile ]] && make clean
-    ruby extconf.rb
+    pushd $COMMANDT_EXT_DIR > /dev/null 2>&1
+    if [[ -f Makefile ]]; then
+        make clean
+    fi
+    rm -f Makefile
+    rvm 2.3.7 \do ruby extconf.rb
     make
     popd > /dev/null 2>&1
 fi
