@@ -314,3 +314,7 @@ if ! ls $APPLICATIONS_DIR/iTerm* > /dev/null 2>&1; then
     spctl --add $APPLICATIONS_DIR/iTerm.app
 fi
 info "iTerm2 installed"
+
+heading "Install iTerm2 config"
+backup_and_symlink $BASE_DIR/iterm2 $HOME/.config/iterm2
+defaults import com.googlecode.iterm2 $HOME/.config/iterm2/com.googlecode.iterm2.plist
