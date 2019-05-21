@@ -172,7 +172,7 @@ create_ruby_env 2.3.7 456 $BASE_DIR/vim/rubyenv/ruby2.3.7-gem.deps.rb
 rvm alias create default 2.3.7
 
 heading "Install Pyenv"
-PYENV_VERSION=1.2.10
+PYENV_VERSION=1.2.11
 brew_check_and_upgrade_version pyenv $PYENV_VERSION
 brew_install pyenv-virtualenv
 
@@ -230,7 +230,7 @@ if [[ ! -f $COMMANDT_EXT_DIR/ext.o ]]; then
 fi
 
 heading "Install Tmux"
-TMUX_VERSION=2.8
+TMUX_VERSION=2.9a
 brew_check_and_upgrade_version tmux $TMUX_VERSION
 
 heading "Install Tmux config"
