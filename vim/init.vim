@@ -5,7 +5,7 @@ execute pathogen#infect()
 if has('nvim')
   " Customize pymode plugin
   let g:pymode_python='python3'
-  let g:pymode_options_max_line_length=100
+  let g:pymode_options_max_line_length=88
   let g:pymode_breakpoint_bind='<leader>B'
 
   " Use only a subset of default pymode options
@@ -83,7 +83,7 @@ autocmd FileType sh set tabstop=4 shiftwidth=4 expandtab
 autocmd FileType gitcommit set tw=72
 
 " Set text width indicator column
-set textwidth=100
+set textwidth=88
 set formatoptions+=lro
 set formatoptions-=tc
 set colorcolumn=+1

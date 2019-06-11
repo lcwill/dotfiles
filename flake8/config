@@ -5,3 +5,5 @@ inline-quotes = double
 
 ignore =
     C812
+    C816
+    W503
