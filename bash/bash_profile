@@ -58,9 +58,6 @@ export HISTSIZE=
 # https://superuser.com/a/753158
 export HISTFILE=~/.bash_eternal_history
 
-IPYTHON_VIRTUALENV_PATH=~/Src/ipython_venv
-alias ipython="VIRTUALENV_PATH=$IPYTHON_VIRTUALENV_PATH ~/.bin/virtualenvify ipython"
-
 # Default AWS profile for MFA-enabled creds
 export AWS_PROFILE=mfa_session
 

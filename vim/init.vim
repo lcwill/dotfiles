@@ -80,6 +80,7 @@ autocmd FileType php set tabstop=4 shiftwidth=4 expandtab
 autocmd FileType javascript set softtabstop=2 tabstop=2 shiftwidth=2 expandtab
 autocmd FileType lua set softtabstop=2 tabstop=2 shiftwidth=2 expandtab
 autocmd FileType sh set tabstop=4 shiftwidth=4 expandtab
+autocmd FileType tf set softtabstop=2 tabstop=2 shiftwidth=2 expandtab
 autocmd FileType gitcommit set tw=72
 
 " Set text width indicator column

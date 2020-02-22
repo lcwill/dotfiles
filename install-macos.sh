@@ -296,6 +296,26 @@ done
 DOCKER_VERSION=$(echo $(docker system info | grep Server.Version | cut -d: -f2))
 info "Docker $DOCKER_VERSION installed"
 
+heading "Install Terraform"
+TERRAFORM_VERSION=0.12.18
+TERRAFORM_INSTALL_PATH="$HOME/terraform-${TERRAFORM_VERSION}-amd64"
+if ! terraform --version 2>/dev/null | grep "v$TERRAFORM_VERSION" > /dev/null; then
+    TERRAFORM_DOWNLOAD_PATH="$(mktemp -d)/terraform-${TERRAFORM_VERSION}-amd64.tar.gz"
+    TERRAFORM_INSTALL_SYMLINK="$HOME/terraform-amd64"
+    TERRAFORM_RELEASE_URL="https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/terraform_${TERRAFORM_VERSION}_darwin_amd64.zip"
+
+    info Downloading and unzipping Terraform v$TERRAFORM_VERSION to $TERRAFORM_INSTALL_PATH
+    curl -sL -o $TERRAFORM_DOWNLOAD_PATH $TERRAFORM_RELEASE_URL
+    temp_dir=$(mktemp -d)
+    unzip -d $temp_dir $TERRAFORM_DOWNLOAD_PATH
+    rm -rf $TERRAFORM_INSTALL_PATH
+    mkdir $TERRAFORM_INSTALL_PATH
+    mv $temp_dir/terraform $TERRAFORM_INSTALL_PATH
+    backup_and_symlink $TERRAFORM_INSTALL_PATH $TERRAFORM_INSTALL_SYMLINK
+fi
+backup_and_symlink $TERRAFORM_INSTALL_PATH/terraform /usr/local/bin/terraform
+info "Terraform v$TERRAFORM_VERSION installed"
+
 heading "Install iTerm2"
 if ! ls $APPLICATIONS_DIR/iTerm* > /dev/null 2>&1; then
     ITERM_LATEST_TAG=$(git ls-remote --sort=-version:refname --tags git@github.com:gnachman/iTerm2 | grep -o 'v\d\+\.\d\+\.\d\+$' | head -1)
