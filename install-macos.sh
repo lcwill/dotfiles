@@ -167,9 +167,9 @@ if ! command -v rvm > /dev/null 2>&1; then
 fi
 
 heading "Install Ruby versions"
-# Install Ruby 2.3.7 with required Neovim dependencies and set as default
-create_ruby_env 2.3.7 456 $BASE_DIR/vim/rubyenv/ruby2.3.7-gem.deps.rb
-rvm alias create default 2.3.7
+# Install Ruby 2.6.3 with required Neovim dependencies and set as default
+create_ruby_env 2.6.3 62 $BASE_DIR/vim/rubyenv/ruby2.6.3-gem.deps.rb
+rvm alias create default 2.6.3
 
 heading "Install Pyenv"
 PYENV_VERSION=1.2.11
@@ -224,7 +224,7 @@ if [[ ! -f $COMMANDT_EXT_DIR/ext.o ]]; then
         make clean
     fi
     rm -f Makefile
-    rvm 2.3.7 \do ruby extconf.rb
+    rvm 2.6.3 \do ruby extconf.rb
     make
     popd > /dev/null 2>&1
 fi
