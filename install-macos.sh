@@ -180,8 +180,6 @@ heading "Install PyEnv config"
 backup_and_symlink $BASE_DIR/pyenv/profile $HOME/.profile.d/20-pyenv
 
 heading "Install Python versions"
-install_and_create_virtualenv 2.7.15 nvim-python \
-    $BASE_DIR/vim/pythonenv/python2.7-requirements.lock
 install_and_create_virtualenv 3.5.5 nvim-python3 \
     $BASE_DIR/vim/pythonenv/python3.5-requirements.lock
 install_and_create_virtualenv 3.7.2 nvim-python37 \

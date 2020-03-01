@@ -17,7 +17,6 @@ if has('nvim')
   setlocal define=^\s*\\(def\\\\|class\\)
 
   " Neovim Providers
-  let g:python_host_prog='$HOME/.pyenv/versions/nvim-python/bin/python'
   let g:ruby_host_prog='$HOME/.rvm/gems/ruby-2.6.3/bin/neovim-ruby-host'
   let g:python3_host_prog='$HOME/.pyenv/versions/nvim-python37/bin/python'
   let g:loaded_node_provider=1
