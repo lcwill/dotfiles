@@ -145,6 +145,20 @@ for f in $BASE_DIR/git/bin/*; do
     backup_and_symlink $f /usr/local/bin/$(basename $f)
 done
 
+heading "Install AWS CLIv2"
+if ! command -v aws > /dev/null 2>&1; then
+    AWS_CLI_DOWNLOAD_DIR="$(mktemp -d)"
+    AWS_CLI_DOWNLOAD_PATH="$AWS_CLI_DOWNLOAD_DIR/AWSCLIV2.pkg"
+    AWS_CLI_INSTALL_PATH=$HOME
+    curl "https://awscli.amazonaws.com/AWSCLIV2.pkg" -o $AWS_CLI_DOWNLOAD_PATH
+    cat $BASE_DIR/aws/installer_choices.template.xml | \
+        sed "s#AWS_CLI_INSTALL_PATH#$AWS_CLI_INSTALL_PATH#" > $AWS_CLI_DOWNLOAD_DIR/choices.xml
+    installer -pkg $AWS_CLI_DOWNLOAD_PATH -target CurrentUserHomeDirectory \
+        -applyChoiceChangesXML $AWS_CLI_DOWNLOAD_DIR/choices.xml
+    ln -snf $AWS_CLI_INSTALL_PATH/aws-cli/aws /usr/local/bin/aws
+    ln -snf $AWS_CLI_INSTALL_PATH/aws-cli/aws_completer /usr/local/bin/aws_completer
+fi
+
 heading "Install AWS config"
 backup_and_symlink $BASE_DIR/aws $HOME/.aws
 
