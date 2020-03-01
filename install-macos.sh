@@ -118,7 +118,7 @@ for d in .bin .profile.d .bash_profile.d .config; do
 done
 
 heading "Install common packages"
-for p in bash-completion git jq htop sqlite zlib; do
+for p in bash-completion git jq tree htop sqlite zlib; do
     brew_install $p
 done
 
@@ -134,7 +134,7 @@ backup_and_symlink $BASE_DIR/ssh/config $HOME/.ssh/config
 backup_and_symlink $BASE_DIR/ssh/bash_profile_macos $HOME/.bash_profile.d/00-ssh
 
 heading "Install tig"
-TIG_VERSION=2.4.1
+TIG_VERSION=2.5.0
 brew_check_and_upgrade_version tig $TIG_VERSION
 
 heading "Install Git config"
@@ -172,7 +172,7 @@ create_ruby_env 2.6.3 62 $BASE_DIR/vim/rubyenv/ruby2.6.3-gem.deps.rb
 rvm alias create default 2.6.3
 
 heading "Install Pyenv"
-PYENV_VERSION=1.2.11
+PYENV_VERSION=1.2.16
 brew_check_and_upgrade_version pyenv $PYENV_VERSION
 brew_install pyenv-virtualenv
 
@@ -186,7 +186,7 @@ install_and_create_virtualenv 3.7.2 nvim-python37 \
     $BASE_DIR/vim/pythonenv/python3.7-requirements.lock
 
 heading "Install Neovim"
-NVIM_VERSION=0.3.4
+NVIM_VERSION=0.4.3
 NVIM_INSTALL_PATH="$HOME/nvim-${NVIM_VERSION}-osx64"
 if ! nvim --version 2>/dev/null | grep "v$NVIM_VERSION" > /dev/null; then
     NVIM_DOWNLOAD_PATH="$(mktemp -d)/nvim-macos-${NVIM_VERSION}.tar.gz"
@@ -228,7 +228,7 @@ if [[ ! -f $COMMANDT_EXT_DIR/ext.o ]]; then
 fi
 
 heading "Install Tmux"
-TMUX_VERSION=2.9a
+TMUX_VERSION=3.0a
 brew_check_and_upgrade_version tmux $TMUX_VERSION
 
 heading "Install Tmux config"
@@ -295,7 +295,7 @@ DOCKER_VERSION=$(echo $(docker system info | grep Server.Version | cut -d: -f2))
 info "Docker $DOCKER_VERSION installed"
 
 heading "Install Terraform"
-TERRAFORM_VERSION=0.12.18
+TERRAFORM_VERSION=0.12.21
 TERRAFORM_INSTALL_PATH="$HOME/terraform-${TERRAFORM_VERSION}-amd64"
 if ! terraform --version 2>/dev/null | grep "v$TERRAFORM_VERSION" > /dev/null; then
     TERRAFORM_DOWNLOAD_PATH="$(mktemp -d)/terraform-${TERRAFORM_VERSION}-amd64.tar.gz"
