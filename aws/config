@@ -2,10 +2,3 @@
 region=us-west-2
 s3 =
     signature_version = s3v4
-[profile mfa_session]
-region = us-west-2
-s3 =
-    signature_version = s3v4
-[plugins]
-mfa = awscli_mfa_plugin
-[profile default]

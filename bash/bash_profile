@@ -58,8 +58,8 @@ export HISTSIZE=
 # https://superuser.com/a/753158
 export HISTFILE=~/.bash_eternal_history
 
-# Default AWS profile for MFA-enabled creds
-export AWS_PROFILE=mfa_session
+# Default AWS region for all profiles
+export AWS_DEFAULT_REGION=us-west-2
 
 for f in $HOME/.bash_profile.d/*; do
    source $f

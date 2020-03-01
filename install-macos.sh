@@ -122,6 +122,7 @@ for p in bash-completion git jq tree htop sqlite zlib; do
     brew_install $p
 done
 
+# TODO: Refactor to work with zsh
 heading "Install Bash config"
 backup_and_symlink $BASE_DIR/bash/profile $HOME/.profile
 backup_and_symlink $BASE_DIR/bash/bash_profile $HOME/.bash_profile
