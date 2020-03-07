@@ -1,3 +1,5 @@
+Include config.d/*
+
 StrictHostKeyChecking no
 ForwardAgent yes
 
