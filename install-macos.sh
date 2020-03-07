@@ -118,15 +118,22 @@ for d in .bin .profile.d .bash_profile.d .config; do
 done
 
 heading "Install common packages"
-for p in bash-completion git jq tree htop sqlite zlib; do
+for p in bash-completion git jq tree wget htop sqlite zlib; do
     brew_install $p
 done
 
-# TODO: Refactor to work with zsh
 heading "Install Bash config"
 backup_and_symlink $BASE_DIR/bash/profile $HOME/.profile
 backup_and_symlink $BASE_DIR/bash/bash_profile $HOME/.bash_profile
 backup_and_symlink $BASE_DIR/bash/virtualenvify.sh $HOME/.bin/virtualenvify
+
+heading "Install oh-my-zsh"
+if [[ ! -e $HOME/.oh-my-zsh ]]; then
+    sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
+fi
+
+heading "Install zsh config"
+backup_and_symlink $BASE_DIR/zsh/zshrc $HOME/.zshrc
 
 heading "Install ssh config"
 mkdir -p $HOME/.ssh

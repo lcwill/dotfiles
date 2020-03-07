@@ -2,6 +2,7 @@ if [[ -z "$SKIP_SOURCE_PROFILE" ]]; then
     # https://superuser.com/a/313637
     source $HOME/.profile
 fi
+
 # Skip re-sourcing of .profile when .bash_profile is edited to prevent PATH from being extended with
 # duplicate paths
 alias bp='vi $HOME/.bash_profile && SKIP_SOURCE_PROFILE=1 source $HOME/.bash_profile || SKIP_SOURCE_PROFILE=1 source $HOME/.bash_profile'
@@ -10,9 +11,6 @@ alias bp='vi $HOME/.bash_profile && SKIP_SOURCE_PROFILE=1 source $HOME/.bash_pro
 alias sudo='sudo '
 
 alias grep='grep -s --color=auto'
-
-export LSCOLORS='ExgxfxDxcxDxDxxbaDExEx'
-alias ls='ls -G'
 
 alias vi=nvim
 alias vim=nvim
@@ -42,25 +40,35 @@ function gen-random() {
 # https://stackoverflow.com/a/791800
 stty -ixon
 
-# Enable bash completion
-[ -f /usr/local/etc/bash_completion ] && . /usr/local/etc/bash_completion
-
-GIT_PS1_SHOWDIRTYSTATE=true
-GIT_PS1_SHOWCOLORHINTS=true
-GIT_PS1_SHOWUNTRACKEDFILES=true
-GIT_PS1_SHOWUPSTREAM="auto"
-PS1='`if [ -n "$(jobs -p)" ]; then echo "[\j]"; fi`\w$(__git_ps1 " (%s)")$ '
-
-# Unlimited bash history
-# https://stackoverflow.com/a/12234989
-export HISTFILESIZE=
-export HISTSIZE=
-# https://superuser.com/a/753158
-export HISTFILE=~/.bash_eternal_history
-
 # Default AWS region for all profiles
 export AWS_DEFAULT_REGION=us-west-2
 
 for f in $HOME/.bash_profile.d/*; do
    source $f
 done
+
+# Bash-specific configuration
+if [[ "$SHELL" =~ .*bash$ ]]; then
+    # Unlimited bash history
+    # https://stackoverflow.com/a/12234989
+    export HISTFILESIZE=
+    export HISTSIZE=
+    # https://superuser.com/a/753158
+    export HISTFILE=~/.bash_eternal_history
+
+    # Collapse duplicate commands and update history file incrementally
+    setopt HIST_FIND_NO_DUPS
+    setopt INC_APPEND_HISTORY
+
+    export LSCOLORS='ExgxfxDxcxDxDxxbaDExEx'
+    alias ls='ls -G'
+
+    GIT_PS1_SHOWDIRTYSTATE=true
+    GIT_PS1_SHOWCOLORHINTS=true
+    GIT_PS1_SHOWUNTRACKEDFILES=true
+    GIT_PS1_SHOWUPSTREAM="auto"
+    PS1='`if [ -n "$(jobs -p)" ]; then echo "[\j]"; fi`\w$(__git_ps1 " (%s)")$ '
+
+    # Enable bash completion
+    [ -f /usr/local/etc/bash_completion ] && . /usr/local/etc/bash_completion
+fi
