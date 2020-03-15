@@ -56,10 +56,6 @@ if [[ "$SHELL" =~ .*bash$ ]]; then
     # https://superuser.com/a/753158
     export HISTFILE=~/.bash_eternal_history
 
-    # Collapse duplicate commands and update history file incrementally
-    setopt HIST_FIND_NO_DUPS
-    setopt INC_APPEND_HISTORY
-
     export LSCOLORS='ExgxfxDxcxDxDxxbaDExEx'
     alias ls='ls -G'
 
