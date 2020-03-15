@@ -248,6 +248,8 @@ if [[ ! -f $COMMANDT_EXT_DIR/ext.o ]]; then
     make
     popd > /dev/null 2>&1
 fi
+# Install Vim plugin dependencies
+brew_install the_silver_searcher
 
 heading "Install Tmux"
 TMUX_VERSION=3.0a

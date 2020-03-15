@@ -245,3 +245,7 @@ function! AirlineThemePatch(palette)
     endfor
   endif
 endfunction
+
+" Map \g to ack plugin, using ag for code search
+let g:ackprg='ag --nogroup --nocolor --column'
+nnoremap <leader>g :Ack!<space>
