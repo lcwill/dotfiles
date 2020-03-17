@@ -48,7 +48,7 @@ for f in $HOME/.bash_profile.d/*; do
 done
 
 # Bash-specific configuration
-if [[ "$SHELL" =~ .*bash$ ]]; then
+if [[ "$0" =~ .*bash$ ]]; then
     # Unlimited bash history
     # https://stackoverflow.com/a/12234989
     export HISTFILESIZE=
