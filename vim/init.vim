@@ -74,7 +74,7 @@ set shiftwidth=4
 set expandtab
 autocmd FileType python set tabstop=4 shiftwidth=4 expandtab
 autocmd FileType puppet set softtabstop=2 tabstop=2 shiftwidth=2 expandtab
-autocmd FileType yaml set tabstop=4 shiftwidth=4 expandtab
+autocmd FileType yaml set tabstop=2 shiftwidth=2 expandtab
 autocmd FileType php set tabstop=4 shiftwidth=4 expandtab
 autocmd FileType javascript set softtabstop=2 tabstop=2 shiftwidth=2 expandtab
 autocmd FileType lua set softtabstop=2 tabstop=2 shiftwidth=2 expandtab

@@ -34,13 +34,14 @@
 	cia = commit --amend --verbose
 	co = checkout
 	com = checkout master
-	cor = checkout reviewed
+	cod = checkout development
 	cp = cherry-pick
 	d = diff -U10
 	dw = diff -U10 -w -b --ignore-blank-lines
 	dc = diff --cached -U10
 	dcw = diff --cached -U10 -w -b --ignore-blank-lines
 	dn = diff --no-index -U10
+	fa = fetch --all
 	g = grep
 	ls = ls-files
 	r = remote -v
