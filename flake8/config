@@ -2,8 +2,3 @@
 import-order-style = pycharm
 max-line-length = 100
 inline-quotes = double
-
-ignore =
-    C812
-    C816
-    W503
