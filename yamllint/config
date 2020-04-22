@@ -3,3 +3,4 @@ rules:
   line-length:
     max: 100
   truthy: disable
+  document-start: disable
