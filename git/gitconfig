@@ -54,7 +54,7 @@
 	sup = submodule update --init
 	supr = submodule update --init --recursive
 	plog = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
-	slog = log --reverse --format='%h %s' -10
+	slog = log --reverse --format='%B%n' -10
 	pullr = pull --rebase
 	pushoh = push origin HEAD
 	rbm = !git fetch origin master:master && git rebase master

@@ -14,6 +14,30 @@ var pushBottom = slate.operation("push", {
   "direction" : "bottom",
   "style" : "bar-resize:screenSizeY/2"
 });
+var pushTopRight = slate.operation("move", {
+  "x" : "screenOriginX + screenSizeX/2",
+  "y" : "screenOriginY",
+  "width" : "screenSizeX/2",
+  "height" : "screenSizeY/2"
+});
+var pushTopLeft = slate.operation("move", {
+  "x" : "screenOriginX",
+  "y" : "screenOriginY",
+  "width" : "screenSizeX/2",
+  "height" : "screenSizeY/2"
+});
+var pushBottomLeft = slate.operation("move", {
+  "x" : "screenOriginX",
+  "y" : "screenOriginY + screenSizeY/2",
+  "width" : "screenSizeX/2",
+  "height" : "screenSizeY/2"
+});
+var pushBottomRight = slate.operation("move", {
+  "x" : "screenOriginX + screenSizeX/2",
+  "y" : "screenOriginY + screenSizeY/2",
+  "width" : "screenSizeX/2",
+  "height" : "screenSizeY/2"
+});
 var fullscreen = slate.operation("move", {
   "x" : "screenOriginX",
   "y" : "screenOriginY",
@@ -45,4 +69,24 @@ slate.bind("up:cmd,shift", function(win) {
 // Cmd+Shift+Down
 slate.bind("down:cmd,shift", function(win) {
   win.doOperation(pushBottom);
+});
+
+// Cmd+Shift+F
+slate.bind("f:cmd,shift", function(win) {
+  win.doOperation(pushBottomLeft);
+});
+
+// Cmd+Shift+J
+slate.bind("j:cmd,shift", function(win) {
+  win.doOperation(pushBottomRight);
+});
+
+// Cmd+Shift+G
+slate.bind("g:cmd,shift", function(win) {
+  win.doOperation(pushTopLeft);
+});
+
+// Cmd+Shift+H
+slate.bind("h:cmd,shift", function(win) {
+  win.doOperation(pushTopRight);
 });
