@@ -33,8 +33,8 @@
 	ci = commit --verbose
 	cia = commit --amend --verbose
 	co = checkout
-	com = checkout master
-	cod = checkout development
+	com = !git checkout master || git checkout main
+	cod = !git checkout develop || git checkout development
 	cp = cherry-pick
 	d = diff -U10
 	dw = diff -U10 -w -b --ignore-blank-lines
@@ -54,7 +54,7 @@
 	sup = submodule update --init
 	supr = submodule update --init --recursive
 	plog = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
-	slog = log --reverse --format='%h %s' -10
+	slog = log --reverse --format='%B%n' -10
 	pullr = pull --rebase
 	pushoh = push origin HEAD
 	rbm = !git fetch origin master:master && git rebase master
@@ -74,3 +74,5 @@
 	stage = g move-first-line
 	stage = G move-last-line
 	main = b scroll-page-up
+[url "git@bitbucket.org:"]
+	insteadOf = https://bitbucket.org/

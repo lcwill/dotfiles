@@ -6,6 +6,7 @@ fi
 # Skip re-sourcing of .profile when .bash_profile is edited to prevent PATH from being extended with
 # duplicate paths
 alias bp='vi $HOME/.bash_profile && SKIP_SOURCE_PROFILE=1 source $HOME/.bash_profile || SKIP_SOURCE_PROFILE=1 source $HOME/.bash_profile'
+alias zrc='vi $HOME/.zshrc'
 
 # https://askubuntu.com/a/22043
 alias sudo='sudo '
@@ -19,7 +20,8 @@ alias gitc='vi ~/.gitconfig'
 alias sshc='vi ~/.ssh/config'
 
 alias ss='cd ~/Src'
-alias ftree='tree -lahgupC'
+alias ftree='tree -lhgupC -I "__pycache__|__init__.py|*.pyc|node_modules"'
+alias ptree='tree -I "__pycache__|__init__.py|*.pyc|node_modules"'
 alias tia='tig --all'
 
 function utime() {
@@ -39,6 +41,9 @@ function gen-random() {
 # Enable forward search through bash history via Ctrl-S
 # https://stackoverflow.com/a/791800
 stty -ixon
+
+# Set default pager
+export PAGER="less -FX"
 
 # Default AWS region for all profiles
 export AWS_DEFAULT_REGION=us-west-2
