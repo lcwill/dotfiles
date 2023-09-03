@@ -6,7 +6,7 @@ function start_agent {
      echo succeeded
      chmod 600 ${SSH_ENV}
      . ${SSH_ENV} > /dev/null
-     ls ~/.ssh/id_* | xargs /usr/bin/ssh-add -K
+     ls ~/.ssh/id_* | xargs /usr/bin/ssh-add --apple-use-keychain
 }
 
 # Source SSH settings, if applicable

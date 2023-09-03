@@ -6,3 +6,11 @@ ForwardAgent yes
 Host github
   Hostname github.com
   User git
+
+Host bitbucket
+  Hostname bitbucket.org
+  User git
+  PasswordAuthentication no
+  RequestTTY no
+  IdentitiesOnly yes
+  IdentityFile ~/.ssh/id_bitbucket
