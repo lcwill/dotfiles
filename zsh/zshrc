@@ -66,6 +66,9 @@ COMPLETION_WAITING_DOTS="true"
 # Disable pyenv warning when extension is loaded
 ZSH_PYENV_QUIET=true
 
+# AWS plugin settings
+SHOW_AWS_PROMPT=false
+
 # Which plugins would you like to load?
 # Standard plugins can be found in ~/.oh-my-zsh/plugins/*
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
@@ -105,5 +108,4 @@ alias history='fc -lf'
 # Apply common shell settings
 source $HOME/.bash_profile
 
-# The next line enables shell command completion for gcloud.
-if [ -f "$HOME/google-cloud-sdk/completion.zsh.inc" ]; then . "$HOME/google-cloud-sdk/completion.zsh.inc"; fi
+autoload -U +X bashcompinit && bashcompinit

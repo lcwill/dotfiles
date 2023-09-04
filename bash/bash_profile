@@ -43,7 +43,8 @@ function gen-random() {
 stty -ixon
 
 # Set default pager
-export PAGER="less -FX"
+export PAGER="less"
+export LESS="-FXR"
 
 # Default AWS region for all profiles
 export AWS_DEFAULT_REGION=us-west-2
